@@ -1,0 +1,370 @@
+local Pop = loadstring(game:HttpGet("http://finity.vip/scripts/finity_lib.lua"))()
+
+local Window = Pop.new(true)
+Window.ChangeToggleKey(Enum.KeyCode.Semicolon)
+                                                                ---------------------------- Player Mod Menu ----------------------------
+local Plr = Window:Category("Player Mods")
+local Player = Plr:Sector("Local Cheats")
+                -- Movement Speed --
+Player:Cheat("Textbox", "WalkSpeed", function(Value)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = tonumber(Value) or 16
+end
+)
+                -- Jump Power --
+Player:Cheat("Textbox", "JumpPower", function(Value)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = tonumber(Value) or 50
+end
+)
+                -- NoClip --
+Player:Cheat("Checkbox", "NoClip", function(gg)
+    local arg = ( gg and true or false )
+    if gg then
+      _G.endme = game:GetService("RunService").RenderStepped:Connect(function()
+        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(11)
+      end)
+    elseif not gg then
+      game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(18)
+      _G.endme:Disconnect()
+    end
+end)
+                -- Fly --
+local toggle = false
+Player:Cheat("Checkbox", "Fly", function()
+    toggle = not toggle
+    local plyr = game.Players.LocalPlayer
+    local char = plyr.Character
+    local Torso = char:WaitForChild("LowerTorso")
+    local Mouse = plyr:GetMouse()
+    if toggle then
+        local BV = Instance.new("BodyVelocity",Torso)
+        BV.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+        while toggle and wait() do
+            BV.Velocity = Mouse.Hit.lookVector*100
+            wait()
+        end
+    end
+    if not toggle then
+        Torso:FindFirstChildOfClass("BodyVelocity"):Remove()
+    end
+end)
+
+Player:Cheat("Checkbox", "Inf Jump", function(gg)
+    local InfiniteJumpEnabled = true
+    local arg = ( gg and true or false )
+    if gg then
+      _G.infj = game:GetService("UserInputService").JumpRequest:connect(function()
+            if InfiniteJumpEnabled then
+            game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+        end
+    end)
+    elseif not gg then
+      _G.infj:Disconnect()
+    end
+end)
+local vu = game:GetService("VirtualUser")
+Player:Cheat("Button", "Anti AFK", function()
+	game:GetService("Players").LocalPlayer.Idled:connect(function()
+        vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        wait(1)
+        vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+     end)
+end)
+
+local tele = Plr:Sector("Teleport")
+tele:Cheat("Textbox", "Teleport To", function(Value)
+    print("Teleported to:", Value)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.AWholeClxwn.Character.HumanoidRootPart.CFrame
+end, {
+	placeholder = "Player Name"
+})
+
+                -- ESP --
+local ESP = Plr:Sector("ESP")
+ESP:Cheat("Checkbox", "Player ESP", function()
+    toggle = not toggle
+    if toggle then
+        for __,v in pairs(game.Players:GetChildren()) do
+            if v.Name == game.Players.LocalPlayer.Name then
+                print("HOLDER")
+                else
+                local a = Instance.new("BillboardGui",v.Character.HumanoidRootPart)
+                a.Size = UDim2.new(8,0, 8,0)
+                a.AlwaysOnTop = true    
+                local b = Instance.new("Frame",a)
+                b.Size = UDim2.new(1,0, 1,0)  
+                b.BackgroundTransparency = 0.75
+                b.BorderSizePixel = 0
+                b.BackgroundColor3 = Color3.new(0, 17, 255)
+            end
+        end
+    end
+    if not toggle then
+
+    end
+end)
+                                                                ---------------------------- Murder Menu ----------------------------
+local MW = Window:Category("Murder")
+local MD = MW:Sector("Murder Game")
+
+MD:Cheat("Checkbox", "Check Muderer", function()
+    local plrs = game.Players:GetChildren() 
+    for i,v in pairs(plrs) do
+        if v.Status.Role.Value == "Murderer" then
+            while true do
+                print(v.Status.FakeName.Value .. " is murderer!")
+                wait(10)
+            end
+        end
+    end
+end)
+
+-- CreditsCreator:Cheat("Label", "deto#7612 @ discord.gg")
+                                                                ---------------------------- Cursed Islands Menu ----------------------------
+local CIS = Window:Category("Cursed Islands")
+local CI = CIS:Sector("Misc")
+CI:Cheat("Checkbox", "Remove Water", function()
+    while true do
+        wait(.1)
+        game.Workspace.Map.Classic.Water:Destroy()
+        game.Workspace.Map.Classic.Water.TouchInterest:Destroy()
+    end
+end)
+                                                                ---------------------------- Piggy Menu ----------------------------
+local PIG = Window:Category("Piggy")
+local PG = PIG:Sector("Main Items")
+
+PG:Cheat("Button", "Red Key", function()
+	print("Red Key has been picked up")
+end)
+
+PG:Cheat("Button", "Blue Key", function()
+	print("Blue Key has been picked up")
+end)
+
+PG:Cheat("Button", "Green Key", function()
+	print("Green Key has been picked up")
+end)
+
+PG:Cheat("Button", "Yellow Key", function()
+	print("Yellow Key has been picked up")
+end)
+
+PG:Cheat("Button", "Orange Key", function()
+	print("Orange Key has been picked up")
+end)
+
+local wrld1 = PIG:Sector("World 1")
+
+wrld1:Cheat("Button", "Red Key", function()
+	local weeb = game.Workspace['ItemFolder']
+        local uwu = true
+        while uwu do
+            wait()
+            for _,v in ipairs(weeb:GetChildren()) do
+                if v:FindFirstChild("Key") then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame + Vector3.new(-5,0,0)
+            end
+        end
+    end
+end)
+                                                                ---------------------------- Isle Menu ----------------------------
+local ByP = Window:Category("Isle")
+local BP = ByP:Sector("Bypaser")
+
+BP:Cheat("Button", "Speed Bypass", function()
+	if not getgenv().MTAPIMutex then loadstring(game:HttpGet("https://pastebin.com/raw/UwFCVrhS", true))() end
+    game.Players.LocalPlayer.Character.Humanoid:AddPropertyEmulator("WalkSpeed")
+end)
+
+BP:Cheat("Button", "Jump Bypass", function()
+	if not getgenv().MTAPIMutex then loadstring(game:HttpGet("https://pastebin.com/raw/UwFCVrhS", true))() end
+    game.Players.LocalPlayer.Character.Humanoid:AddPropertyEmulator("JumpPower")
+end)
+
+BP:Cheat("Button", "BYPASS SERVICES", function()
+	workspace.Services:Remove()
+end)
+                                                                ---------------------------- Anime Simulator Menu ----------------------------
+local AFS = Window:Category("Anime Fight Sim")
+local ANIE = AFS:Sector("Auto Farm")
+
+ANIE:Cheat("Button", "Sword", function()
+    local StatFunction = game:GetService("ReplicatedStorage").Events.StatFunction
+    while true do
+        StatFunction:InvokeServer(
+            "Stat",
+            "Sword"
+    )
+    wait()
+    end
+end)
+
+ANIE:Cheat("Button", "Strength", function()
+    local StatFunction = game:GetService("ReplicatedStorage").Events.StatFunction
+    while true do
+        StatFunction:InvokeServer(
+            "Stat",
+            "Strength"
+    )
+    wait()
+    end
+end)
+
+ANIE:Cheat("Button", "Speed", function()
+    local StatFunction = game:GetService("ReplicatedStorage").Events.StatFunction
+    while true do
+        StatFunction:InvokeServer(
+            "Stat",
+            "Speed"
+    )
+    wait()
+    end
+end)
+
+ANIE:Cheat("Button", "Chakara", function()
+    local StatFunction = game:GetService("ReplicatedStorage").Events.StatFunction
+    while true do
+        StatFunction:InvokeServer(
+            "Stat",
+            "Chakara"
+    )
+    wait()
+    end
+end)
+                                                                ---------------------------- Da Hood Menu ----------------------------
+local DAH = Window:Category("Da Hood")
+local DA = DAH:Sector("Misc")
+
+DA:Cheat("Button", "Money Drop", function()
+	d=game.Players.LocalPlayer.Character.HumanoidRootPart.Position;for e,f in pairs(game.Workspace.Ignored.Drop:GetChildren())do if f.Name=="MoneyDrop"then game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=f.Parent:FindFirstChild("MoneyDrop").CFrame;if(game.Players.LocalPlayer.Character.HumanoidRootPart.Position-f.Position).Magnitude<=50 then wait(.8)fireclickdetector(f:FindFirstChild("ClickDetector"))wait(0)end end end;
+end)
+
+DA:Cheat("Button", "Items", function()
+    d=game.Players.LocalPlayer.Character.HumanoidRootPart.Position;for h,i in pairs(game.Workspace.Ignored.ItemsDrop:GetChildren())do if i.Name=="Part"then if i:FindFirstChild("[LockPicker]")or i:FindFirstChild("[Knife]")then game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=i.CFrame;if(game.Players.LocalPlayer.Character.HumanoidRootPart.Position-i.Position).Magnitude<=50 then wait()end end end end;
+end)
+
+local DAA = DAH:Sector("Teleports")
+
+DAA:Cheat("Button", "Sewers", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(171,-41,153)
+end)
+
+DAA:Cheat("Button", "Bank", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-421,22,-283)
+end)
+
+                                                                ---------------------------- Wild West Menu ----------------------------
+local WES = Window:Category("Wild West")
+local WIS = WES:Sector("Misc")
+
+WIS:Cheat("Button", "No Recoil", function()
+    -- Wild West No Recoil
+    for a,b in next, require(game.ReplicatedStorage.Modules.Load.Character.Items.Types.GunItem) do
+        if a == "CalculateRecoil" then
+            hookfunction(b, function()
+                return 0
+            end)
+        end
+    end
+end)
+
+WIS:Cheat("Button", "Inf Ammo", function()
+    for a,b in next, require(game.ReplicatedStorage.Modules.Load.Character.Items.Types.GunItem) do
+        if a == "Shoot" then
+            local old; old = hookfunction(b, function(gun)
+                if gun.Ammo then
+                    gun.Ammo = math.huge
+                else
+                    print("cant find ammo table")
+                end
+                return old(gun)
+            end)
+        end
+    end
+end)
+WIS:Cheat("Button", "Bypass All", function()
+    game:GetService("ReplicatedStorage").Communication.Events:Remove()
+end)
+                                                                ---------------------------- Misc Menu ----------------------------
+local MIS = Window:Category("Misc")
+local MS = MIS:Sector("Misc")
+
+MS:Cheat("Button", "FE Check", function()
+    if game.Workspace.FilteringEnabled == true then
+        local s = Instance.new("ScreenGui")
+        s.Parent = game.Players.LocalPlayer.PlayerGui
+        s.Name = "Message"
+        wait()
+        local t = Instance.new("TextLabel")
+        t.Parent = s
+        t.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+        t.TextColor3 = Color3.fromRGB(255, 255, 255)
+        t.TextScaled = true
+        t.BorderSizePixel = 3
+        t.BorderColor3 = Color3.fromRGB(255, 0, 4)
+        t.Position = UDim2.new(-0.192, 0,0.484, 0)
+        t.BackgroundTransparency = 0.3
+        t.Size = UDim2.new(0, 200,0, 50)
+        t.Text = "Filtering is enabled."
+        t:TweenPosition(UDim2.new(0, 0,0.485, 0), "In", "Bounce", 1.5)
+        wait(2.5)
+        t:TweenPosition(UDim2.new(-0.192, 0,0.484, 0), "Out", "Bounce", 1.5)
+        wait(1.5)
+        s:Destroy()
+    else
+        local a = Instance.new("ScreenGui")
+        a.Parent = game.Players.LocalPlayer.PlayerGui
+        a.Name = "Message"
+        wait()
+        local b = Instance.new("TextLabel")
+        b.Parent = a
+        b.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+        b.TextColor3 = Color3.fromRGB(255, 255, 255)
+        b.TextScaled = true
+        b.BorderSizePixel = 3
+        b.BorderColor3 = Color3.fromRGB(0, 255, 42)
+        b.Position = UDim2.new(-0.192, 0,0.484, 0)
+        b.BackgroundTransparency = 0.3
+        b.Size = UDim2.new(0, 200,0, 50)
+        b.Text = "Filtering is disabled."
+        b:TweenPosition(UDim2.new(0, 0,0.485, 0), "In", "Bounce", 1.5)
+        wait(2.5)
+        b:TweenPosition(UDim2.new(-0.192, 0,0.484, 0), "Out", "Bounce", 1.5)
+        wait(1.5)
+        a:Destroy()
+    end
+end)
+                                                                ---------------------------- Script Hub Menu ----------------------------
+local Scr = Window:Category("Script Hub")
+local Hub = Scr:Sector("All the Scripts Compiled")
+
+Hub:Cheat("Button", "Infinity Yield", function()
+	loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
+end)
+
+Hub:Cheat("Button", "Ro-Slayers", function()
+	_G.antileech = "epicgamermomento" -- you will need to write the anti-leech password here.
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/CreativeHell/public-scripts/master/ro-slayer-new.lua',true))()
+end)
+
+Hub:Cheat("Button", "Bakon GUI", function()
+	loadstring(game:HttpGet("https://pastebin.com/raw/QFhgkMrk",true))()
+end)
+
+
+Hub:Cheat("Button", "Remote Spy", function()
+	loadstring(game:HttpGet("https://pastebin.com/raw/0D4seHCr",true))()
+end)
+
+Hub:Cheat("Button", "Hydroxide Remote Spy", function()
+	loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Upbolt/RemoteSpy/master/main.lua"))()
+end)
+
+
+Hub:Cheat("Button", "Piggy GUI", function()
+	loadstring(game:HttpGet("https://pastebin.com/raw/6JgHGHpt",true))()
+end)
+
+Hub:Cheat("Button", "Dark Dex", function()
+	loadstring(game:GetObjects("rbxassetid://418957341")[1].Source)()
+end)
