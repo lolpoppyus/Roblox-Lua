@@ -1,0 +1,69 @@
+local players = game:GetService("Players")
+local localplayer = players.LocalPlayer
+local lighting = game:GetService("Lighting")
+
+local library = loadstring(game:HttpGet("https://pastebin.com/raw/2xDTKdpV", true))()
+
+local SirenHead = library:CreateTab("Teleports", "Places to teleport.", true)
+
+SirenHead:CreateDropDown("Teleports", {"Spawn", "City", "Plane", "Barn", "Cave", "Power Station", "Car Lot", "Lake", "Village", "Tower"},function(arg)
+    if arg == "Spawn" then
+        localplayer.Character.HumanoidRootPart.CFrame = CFrame.new(1111.86072, 4.88811493, 25.279541)
+    elseif arg == "City" then
+        localplayer.Character.HumanoidRootPart.CFrame = CFrame.new(-214.423, 7.48, -169.54)
+    elseif arg == "Plane" then
+        localplayer.Character.HumanoidRootPart.CFrame = CFrame.new(412.012, 21.313, -925.619)
+    elseif arg == "Barn" then
+        localplayer.Character.HumanoidRootPart.CFrame = CFrame.new(1115.87, 6.85, -1414.088)
+    elseif arg == "Cave" then
+        localplayer.Character.HumanoidRootPart.CFrame = CFrame.new(841.195, 9.94, -1530.265)
+    elseif arg == "Power Station" then
+        localplayer.Character.HumanoidRootPart.CFrame = CFrame.new(704.635, 24.447, -465.329)
+    elseif arg == "Car Lot" then
+        localplayer.Character.HumanoidRootPart.CFrame = CFrame.new(1105.95, 9.92, 14.194)
+    elseif arg == "Lake" then
+        localplayer.Character.HumanoidRootPart.CFrame = CFrame.new(-275.23, 10.52, -1156.063)
+    elseif arg == "Village" then
+        localplayer.Character.HumanoidRootPart.CFrame = CFrame.new(369.377, 9, -174.224)
+    elseif arg == "Tower" then
+        localplayer.Character.HumanoidRootPart.CFrame = CFrame.new(100.816, 81.271, -862.195)
+    end
+end)
+
+local MonsterTele = library:CreateTab("Monsters", "Teleport to Monsters", true)
+
+MonsterTele:CreateDropDown("Teleports", {"Siren Head"}, function(arg)
+    if arg == "Siren Head" then
+        localplayer.Character.HumanoidRootPart.CFrame = workspace["SirenHead"].Torso.CFrame - Vector3.new(15,0,15)
+    end
+end)
+
+local playerCheats = library:CreateTab("Local Player", "Cheats for you only.", true)
+
+playerCheats:CreateButton("Remove Trees", function()
+    workspace.Trees:Destroy()
+end)
+
+playerCheats:CreateButton("FullBright", function()
+    localplayer.CameraMaxZoomDistance = 9999999
+    lighting.FogEnd = 100000
+    lighting.TimeOfDay = 14
+    lighting.SunRays:Destroy()
+    lighting.ColorCorrection:Destroy()
+    lighting.Bloom:Destroy()
+    lighting.Blur:Destroy()
+    if lighting:FindFirstChild("Sky") then
+    lighting.Sky:Destroy()
+    end
+end)
+
+playerCheats:CreateButton("Grab all Guns", function()
+    for _, v in pairs(workspace:GetChildren()) do
+        if v.Name:find("Giver") and v:FindFirstChild("Part") then
+        local cd = v.Part:FindFirstChildOfClass("ClickDetector")
+        if cd then
+        fireclickdetector(cd)
+        end
+        end
+        end
+end)
