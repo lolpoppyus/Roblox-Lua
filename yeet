@@ -78,6 +78,20 @@ playerCheats:CreateButton("Grab all Guns", function()
         end
 end)
 
+playerCheats:CreateSlider("Gun Damage", 0, 100000, function(arg)
+    function getWeapon()
+        return game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool")
+    end
+    
+    function changeValue(Module, ValueToBeChanged, Val)
+        if Module:IsA("ModuleScript") then
+            local req = require(Module)
+            req[ValueToBeChanged] = Val
+        end
+    end
+    changeValue(getWeapon().Setting, "BaseDamage", tonumber(arg))
+end)
+
 playerCheats:CreateSlider("Walk Speed", 0, 250, function(arg)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = tonumber(arg)
 end)
