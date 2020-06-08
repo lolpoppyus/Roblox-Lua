@@ -38,6 +38,16 @@ MonsterTele:CreateDropDown("Teleports", {"Siren Head"}, function(arg)
     end
 end)
 
+MonsterTele:CreateDropDown("Kill" , {"Siren Head"}, function(arg)
+    if arg == "Siren Head" then
+        workspace.SirenHead.Humanoid.Health = 0
+    end
+end)
+
+MonsterTele:CreateSlider("SirenHead Speed", 0, 250, function(arg)
+    workspace.SirenHead.Humanoid.WalkSpeed = tonumber(arg)
+end)
+
 local playerCheats = library:CreateTab("Local Player", "Cheats for you only.", true)
 
 playerCheats:CreateButton("Remove Trees", function()
@@ -66,4 +76,184 @@ playerCheats:CreateButton("Grab all Guns", function()
         end
         end
         end
+end)
+
+playerCheats:CreateSlider("Walk Speed", 0, 250, function(arg)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = tonumber(arg)
+end)
+
+playerCheats:CreateSlider("Jump Power", 0, 250, function(arg)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = tonumber(arg)
+end)
+
+
+local Paused = true
+playerCheats:CreateToggle("ESP", function()
+    spawn(function()
+        --// Create a variable for all the players in the game
+        Paused = not Paused
+
+        local plrs = game:GetService("Players"):GetPlayers()
+        for i = 1, #plrs do
+            --// Create BillBoardGui to hold main stuff
+            local boxholder = Instance.new("BillboardGui", game:GetService("Workspace")[plrs[i].Name].HumanoidRootPart)
+            boxholder.Name = "HolderBox"
+            boxholder.AlwaysOnTop = true
+            boxholder.LightInfluence = 0
+            boxholder.Adornee = game:GetService("Workspace")[plrs[i].Name].HumanoidRootPart
+            boxholder.Size = UDim2.new(5, 0, 8, 0)
+            --// Create the box/esp itself
+            local box = Instance.new("Frame", boxholder)
+            box.Size = UDim2.new(1, 0, 1, 0)
+            box.BackgroundColor3 = Color3.fromRGB(85, 255, 255)
+            box.BorderSizePixel = 0
+            box.BackgroundTransparency = 0.5
+            --// Create a textlabel with the player's name
+            local label = Instance.new("TextLabel", boxholder)
+            label.TextColor3 = Color3.fromRGB(255,255,255)
+            label.BackgroundColor3 = Color3.fromRGB(255,255,255)
+            label.BorderSizePixel = 0
+            label.BackgroundTransparency = 1
+            label.TextScaled = true
+            label.Text = plrs[i].Name
+            label.Size = UDim2.new(1, 0, 0.15, 0)
+            label.TextColor3 = Color3.fromRGB(255,255,255)
+            --// Create a function where if the player dies, give them a box again
+            game:GetService("Workspace")[plrs[i].Name]:WaitForChild("Humanoid").Died:Connect(function()
+                wait(7)
+                local boxholder = Instance.new("BillboardGui", game.Workspace[plrs[i].Name].HumanoidRootPart)
+                boxholder.Name = "HolderBox"
+                boxholder.AlwaysOnTop = true
+                boxholder.LightInfluence = 0
+                boxholder.Adornee = game:GetService("Workspace")[plrs[i].Name].HumanoidRootPart
+                boxholder.Size = UDim2.new(5, 0, 8, 0)
+                local box = Instance.new("Frame", boxholder)
+                box.Size = UDim2.new(1, 0, 1, 0)
+                box.BackgroundColor3 = Color3.fromRGB(85, 255, 255)
+                box.BorderSizePixel = 0
+                box.BackgroundTransparency = 0.5
+                local label = Instance.new("TextLabel", boxholder)
+                label.TextColor3 = Color3.fromRGB(255,255,255)
+                label.BackgroundColor3 = Color3.fromRGB(255,255,255)
+                label.BorderSizePixel = 0
+                label.BackgroundTransparency = 1
+                label.TextScaled = true
+                label.Text = plrs[i].Name
+                label.Size = UDim2.new(1, 0, 0.15, 0)
+                
+                if plrs[i].Name == game:GetService("Players").LocalPlayer.Name then
+                    wait(1)
+                    game:GetService("Workspace")[game:GetService("Players").LocalPlayer.Name].HumanoidRootPart:FindFirstChild("HolderBox"):Destroy()
+                end
+            end)
+        end
+
+        --// If a player joins give them a box
+
+        game:GetService("Players").PlayerAdded:Connect(function(plr)
+            plr.CharacterAdded:Connect(function(plrchar)
+                if not Paused then
+                    --// Create BillBoardGui to hold main stuff
+                    local boxholder = Instance.new("BillboardGui", plrchar.HumanoidRootPart);
+                    boxholder.Name = "HolderBox";
+                    boxholder.AlwaysOnTop = true;
+                    boxholder.LightInfluence = 0;
+                    boxholder.Adornee = plrchar.HumanoidRootPart;
+                    boxholder.Size = UDim2.new(5, 0, 8, 0);
+                    --// Create the box/esp itself
+                    local box = Instance.new("Frame", boxholder);
+                    box.Size = UDim2.new(1, 0, 1, 0);
+                    box.BackgroundColor3 = Color3.fromRGB(85, 255, 255);
+                    box.BorderSizePixel = 0;
+                    box.BackgroundTransparency = 0.5;
+                    --// Create a textlabel with the player's name
+                    local label = Instance.new("TextLabel", boxholder);
+                    label.TextColor3 = Color3.fromRGB(255,255,255);
+                    label.BackgroundColor3 = Color3.fromRGB(255,255,255);
+                    label.BorderSizePixel = 0;
+                    label.BackgroundTransparency = 1;
+                    label.TextScaled = true;
+                    label.Text = plr.Name;
+                    label.Size = UDim2.new(1, 0, 0.15, 0);
+                    label.TextColor3 = Color3.fromRGB(255,255,255);
+                elseif Paused then
+                    return 0
+                end
+            end)
+        end)
+        game:GetService("Players").PlayerRemoving:Connect(function(plr)
+            plr.CharacterRemoving:Connect(function(plrchar)
+                if Paused then return 0
+                elseif not Paused then
+                    --// Create BillBoardGui to hold main stuff
+                    local boxholder = Instance.new("BillboardGui", plrchar.HumanoidRootPart);
+                    boxholder.Name = "HolderBox";
+                    boxholder.AlwaysOnTop = true;
+                    boxholder.LightInfluence = 0;
+                    boxholder.Adornee = plrchar.HumanoidRootPart;
+                    boxholder.Size = UDim2.new(5, 0, 8, 0);
+                    --// Create the box/esp itself
+                    local box = Instance.new("Frame", boxholder);
+                    box.Size = UDim2.new(1, 0, 1, 0);
+                    box.BackgroundColor3 = Color3.fromRGB(85, 255, 255);
+                    box.BorderSizePixel = 0;
+                    box.BackgroundTransparency = 0.5;
+                    --// Create a textlabel with the player's name
+                    local label = Instance.new("TextLabel", boxholder);
+                    label.TextColor3 = Color3.fromRGB(255,255,255);
+                    label.BackgroundColor3 = Color3.fromRGB(255,255,255);
+                    label.BorderSizePixel = 0;
+                    label.BackgroundTransparency = 1;
+                    label.TextScaled = true;
+                    label.Text = plr.Name;
+                    label.Size = UDim2.new(1, 0, 0.15, 0);
+                    label.TextColor3 = Color3.fromRGB(255,255,255);
+                end
+            end)
+        end)
+        for i,v in next, game:GetService("Players"):GetPlayers() do
+            if v.Name == tostring(game:GetService("Players").LocalPlayer.Name) then
+                if v.Character.HumanoidRootPart:FindFirstChild("HolderBox") then
+                    v.Character.HumanoidRootPart:FindFirstChild("HolderBox"):Destroy()
+                end
+            end
+        end
+        wait(1)
+        if Paused then
+            for i,v in next, game:GetService("Workspace"):GetChildren() do
+                local v1 = game:GetService("Players"):GetPlayers()
+                for k,t in next, v1 do
+                    if t.Character.HumanoidRootPart:FindFirstChild("HolderBox") then
+                        t.Character.HumanoidRootPart:FindFirstChild("HolderBox"):Destroy()
+                    end
+                end
+            end
+        end
+    end)
+end)
+
+playerCheats:CreateToggle("Inf Jump", function(gg)
+    local InfiniteJumpEnabled = true
+    local arg = ( gg and true or false )
+    if gg then
+      _G.infj = game:GetService("UserInputService").JumpRequest:connect(function()
+            if InfiniteJumpEnabled then
+            game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+        end
+    end)
+    elseif not gg then
+      _G.infj:Disconnect()
+    end
+end)
+
+playerCheats:CreateToggle("NoClip", function(gg)
+    local arg = ( gg and true or false )
+    if gg then
+      _G.endme = game:GetService("RunService").RenderStepped:Connect(function()
+        game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(11)
+      end)
+    elseif not gg then
+      game:GetService("Players").LocalPlayer.Character.Humanoid:ChangeState(18)
+      _G.endme:Disconnect()
+    end
 end)
