@@ -1,1 +1,1 @@
-Just where i make all my roblox shit and stuff :3 wont be official when i release my hub :D
+BTW i reopened my Github 5-1-2022, There are scripts here that are old so dont use them since i have no updated them.
