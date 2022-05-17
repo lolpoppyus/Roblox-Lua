@@ -580,7 +580,7 @@ function Library:CreateWindow(Config, Parent)
                     items = {}
                     for i,v in next, values do
                         local Option = Folder.Option:Clone()
-                        Option.Name = "Option"
+                        Option.Name = v
                         Option.Parent = Dropdown.Container.Holder.Container
 
                         Option.Title.Text = v
