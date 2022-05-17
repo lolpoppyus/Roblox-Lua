@@ -587,7 +587,7 @@ function Library:CreateWindow(Config, Parent)
                         Option.BackgroundColor3 = Config.Color
                         Option.Size = UDim2.new(1,0,0,Option.Title.TextBounds.Y + 5)
                         Dropdown.Container.Holder.Size = UDim2.new(1,-5,0,Dropdown.Container.Holder.Container.ListLayout.AbsoluteContentSize.Y)
-                        table.insert(items, Option)
+                        table.insert(Library.ColorTable, Option)
 
                         Option.MouseButton1Down:Connect(function()
                             Option.BackgroundTransparency = 0
@@ -608,7 +608,7 @@ function Library:CreateWindow(Config, Parent)
                     end
                 end
                 loadlist(OptionTable)
-
+                
 				function DropdownInit:AddToolTip(Name)
 					if tostring(Name):gsub(" ", "") ~= "" then
 						Dropdown.MouseEnter:Connect(function()
