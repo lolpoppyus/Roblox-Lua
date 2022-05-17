@@ -608,7 +608,6 @@ function Library:CreateWindow(Config, Parent)
                     end
                 end
                 loadlist(OptionTable)
-                
 				function DropdownInit:AddToolTip(Name)
 					if tostring(Name):gsub(" ", "") ~= "" then
 						Dropdown.MouseEnter:Connect(function()
@@ -655,7 +654,7 @@ function Library:CreateWindow(Config, Parent)
 				if InitialValue then
 					DropdownInit:SetOption(InitialValue)
 				end
-				return DropdownInit
+				return DropdownInit and loadlist
 			end
 			function SectionInit:CreateColorpicker(Name,Callback)
 				local ColorpickerInit = {}
