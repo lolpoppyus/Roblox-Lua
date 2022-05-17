@@ -602,7 +602,7 @@ function Library:CreateWindow(Config, Parent)
                         end)
 
                         Option.MouseButton1Click:Connect(function()
-                            Dropdown.Container.Value.Text = Name.."/"..v
+                            Dropdown.Container.Value.Text = v
                             Callback(v)
                         end)
                     end
