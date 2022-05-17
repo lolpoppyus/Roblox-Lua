@@ -580,10 +580,10 @@ function Library:CreateWindow(Config, Parent)
                     items = {}
                     for i,v in next, values do
                         local Option = Folder.Option:Clone()
-                        Option.Name = v.Name
+                        Option.Name = v
                         Option.Parent = Dropdown.Container.Holder.Container
 
-                        Option.Title.Text = v.Name
+                        Option.Title.Text = v
                         Option.BackgroundColor3 = Config.Color
                         Option.Size = UDim2.new(1,0,0,Option.Title.TextBounds.Y + 5)
                         Dropdown.Container.Holder.Size = UDim2.new(1,-5,0,Dropdown.Container.Holder.Container.ListLayout.AbsoluteContentSize.Y)
