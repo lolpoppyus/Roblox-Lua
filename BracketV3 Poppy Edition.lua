@@ -547,7 +547,7 @@ function Library:CreateWindow(Config, Parent)
 
 				return SliderInit
 			end
-			function SectionInit:CreateDropdown(Name, OptionTable, Callback, InitialValue)
+			function SectionInit:CreateDropdown(Name, OptionTable, Callback)
 				local DropdownInit = {}
 				local Dropdown = Folder.Dropdown:Clone()
 				Dropdown.Name = Name .. " D"
@@ -608,7 +608,6 @@ function Library:CreateWindow(Config, Parent)
                     end
                 end
                 loadlist(OptionTable)
-                --[[
 				function DropdownInit:AddToolTip(Name)
 					if tostring(Name):gsub(" ", "") ~= "" then
 						Dropdown.MouseEnter:Connect(function()
@@ -652,10 +651,7 @@ function Library:CreateWindow(Config, Parent)
 					Dropdown.Container.Holder.Size = UDim2.new(1,-5,0,Dropdown.Container.Holder.Container.ListLayout.AbsoluteContentSize.Y)
 					Dropdown.Size = UDim2.new(1,-10,0,Dropdown.Container.Holder.Container.ListLayout.AbsoluteContentSize.Y + Dropdown.Title.TextBounds.Y + 30)
 				end
-				if InitialValue then
-					DropdownInit:SetOption(InitialValue)
-				end]]
-				return loadlist
+				return DropdownInit and loadlist
 			end
 			function SectionInit:CreateColorpicker(Name,Callback)
 				local ColorpickerInit = {}
