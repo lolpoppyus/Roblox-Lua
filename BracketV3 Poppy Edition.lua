@@ -571,13 +571,19 @@ function Library:CreateWindow(Config, Parent)
 					end
 				end)
 
+                local items = {}
+
                 local function loadlist(values)
-                    for _,OptionName in pairs(values) do
+                    for i,v in pairs(items) do
+                        v:Destroy()
+                    end
+                    items = {}
+                    for i,v in next, values do
                         local Option = Folder.Option:Clone()
-                        Option.Name = OptionName
+                        Option.Name = "Option"
                         Option.Parent = Dropdown.Container.Holder.Container
 
-                        Option.Title.Text = OptionName
+                        Option.Title.Text = "OptionTitle"
                         Option.BackgroundColor3 = Config.Color
                         Option.Size = UDim2.new(1,0,0,Option.Title.TextBounds.Y + 5)
                         Dropdown.Container.Holder.Size = UDim2.new(1,-5,0,Dropdown.Container.Holder.Container.ListLayout.AbsoluteContentSize.Y)
@@ -596,12 +602,13 @@ function Library:CreateWindow(Config, Parent)
                         end)
 
                         Option.MouseButton1Click:Connect(function()
-                            Dropdown.Container.Value.Text = OptionName
-                            Callback(OptionName)
+                            Dropdown.Container.Value.Text = Name.."/"..v
+                            Callback(v)
                         end)
                     end
                 end
                 loadlist(OptionTable)
+                
 				function DropdownInit:AddToolTip(Name)
 					if tostring(Name):gsub(" ", "") ~= "" then
 						Dropdown.MouseEnter:Connect(function()
