@@ -6,8 +6,6 @@ ______ ___________________   ___   _ _____
 | |   \ \_/ / |   | |     | | | |_| /\__/ /
 \_|    \___/\_|   \_|     \_/  \___/\____/ 
 
-PUT IN AUTOEXEC IF YOU WANT TO USE ADMIN DETECTION
-
 ]]
 -- This file was generated using Luraph Obfuscator v13.5.4
 
