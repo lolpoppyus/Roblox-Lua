@@ -3779,7 +3779,7 @@ function library:Load(options)
 
                 section.Size = UDim2.new(1, 0, 0, sectioncontent.AbsoluteContentSize + 28)
 
-                return library.createkeybind(default, holder, blacklist, flag, newcallback, -1) and focus == false
+                return library.createkeybind(default, holder, blacklist, flag, newcallback or callback, -1) and focus == false
             end
 
             return sectiontypes
