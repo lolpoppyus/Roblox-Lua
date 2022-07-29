@@ -2598,12 +2598,10 @@ function library.createkeybind(default, parent, blacklist, flag, callback, offse
                 focus = false
             end
         end)
-        if focus == false then
-            if tostring(newkey):find("Enum.KeyCode.") then
-                newkey = Enum.KeyCode[tostring(newkey):gsub("Enum.KeyCode.", "")]
-            elseif tostring(newkey):find("Enum.UserInputType.") then
-                newkey = Enum.UserInputType[tostring(newkey):gsub("Enum.UserInputType.", "")]
-            end
+        if tostring(newkey):find("Enum.KeyCode.") then
+            newkey = Enum.KeyCode[tostring(newkey):gsub("Enum.KeyCode.", "")]
+        elseif tostring(newkey):find("Enum.UserInputType.") then
+            newkey = Enum.UserInputType[tostring(newkey):gsub("Enum.UserInputType.", "")]
         end
         if newkey ~= nil and not table.find(blacklist, newkey) then
             key = newkey
@@ -3358,23 +3356,36 @@ function library:Load(options)
                 end
 
                 function toggletypes:Keybind(options)
-                    
-                    utility.table(options)
-                    local default = options.default
-                    local blacklist = options.blacklist or {}
-                    local flag = options.flag or utility.nextflag()
-                    local mode = options.mode and options.mode:lower()
-                    local callback = options.callback or function() end
-
-                    local newcallback = function(key, fromsetting)
-                        if not fromsetting then
-                            set(not toggled)
+                    local uiService = game:GetService('UserInputService')
+                    local focus = false
+                    uiService.TextBoxFocused:Connect(function(textBox)
+                        if textBox.Name == 'ChatBar' then
+                            focus = true
                         end
+                    end)
+                    uiService.TextBoxFocusReleased:Connect(function(textBox)
+                        if textBox.Name == 'ChatBar' then
+                            focus = false
+                        end
+                    end)
+                    if focus == false then
+                        utility.table(options)
+                        local default = options.default
+                        local blacklist = options.blacklist or {}
+                        local flag = options.flag or utility.nextflag()
+                        local mode = options.mode and options.mode:lower()
+                        local callback = options.callback or function() end
 
-                        callback(key, fromsetting)
+                        local newcallback = function(key, fromsetting)
+                            if not fromsetting then
+                                set(not toggled)
+                            end
+
+                            callback(key, fromsetting)
+                        end
+                        
+                        return library.createkeybind(default, holder, blacklist, flag, mode == "toggle" and newcallback or callback, -2)
                     end
-
-                    return library.createkeybind(default, holder, blacklist, flag, mode == "toggle" and newcallback or callback, -2)
                 end
 
                 function toggletypes:Slider(options)
