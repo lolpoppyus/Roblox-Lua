@@ -1113,7 +1113,7 @@ local themes = {
     },
 
     Midnight = {
-        ["Accent"] = Color3.fromRGB(229, 136, 154),
+        ["Accent"] = Color3.fromRGB(100, 59, 154),
         ["Window Background"] = Color3.fromRGB(30, 30, 36),
         ["Window Border"] = Color3.fromRGB(45, 45, 49),
         ["Tab Background"] = Color3.fromRGB(20, 20, 24),
@@ -2902,15 +2902,13 @@ function library:Load(options)
             Theme = #self.tabtoggles == 0 and "Tab Toggle Background" or "Tab Background"
         })
 
-
-
         local outline = utility.outline(tabtoggle, "Tab Border")
 
         table.insert(self.tabtoggleoutlines, outline)
         table.insert(self.tabtoggles, tabtoggle)
 
         for i, v in next, self.tabtoggles do
-            v.Size = UDim2.new(1 / #self.tabtoggles, i == 1 and 1 or i == #self.tabtoggles and -2 or -1, 2, 0)
+            v.Size = UDim2.new(1 / #self.tabtoggles, i == 1 and 1 or i == #self.tabtoggles and -2 or -1, 1, 0)
             v.Position = UDim2.new(1 / (#self.tabtoggles / (i - 1)), i == 1 and 0 or 2, 0, 0)
         end
 
@@ -2918,7 +2916,7 @@ function library:Load(options)
             Text = name,
             Font = Drawing.Fonts.Plex,
             Size = 13,
-            Position = UDim2.new(0.5, 0, 1, 0),
+            Position = UDim2.new(0.5, 0, 0, 3),
             Theme = #self.tabtoggles == 1 and "Text" or "Disabled Text",
             ZIndex = 7,
             Center = true,
@@ -2932,16 +2930,8 @@ function library:Load(options)
             Transparency = 0,
             Visible = #self.tabs == 0,
             Parent = tabholder,
-            Size = UDim2.new(1, -16, 1, -30),
-            Position = UDim2.new(0, 8, 0, 28)
-        })
-
-        utility.create("Image", {
-            Size = UDim2.new(1, 0, 1, 0),
-            Transparency = 0.5,
-            ZIndex = 9,
-            Parent = tabtoggle,
-            Data = library.gradient
+            Size = UDim2.new(1, -16, 1, -16),
+            Position = UDim2.new(0, 8, 0, 8)
         })
 
         table.insert(self.tabs, tab)
@@ -2954,7 +2944,7 @@ function library:Load(options)
         local column1 = utility.create("Square", {
             Transparency = 0,
             Parent = tab,
-            Size = UDim2.new(0.5, -4, 0.5, 0)
+            Size = UDim2.new(0.5, -4, 1, 0)
         })
 
         column1:AddListLayout(12)
@@ -3036,7 +3026,7 @@ function library:Load(options)
                 Text = name,
                 Font = Drawing.Fonts.Plex,
                 Size = 13,
-                Position = UDim2.new(0, 6, 0, 0),
+                Position = UDim2.new(0, 6, 0, 3),
                 Theme = "Text",
                 ZIndex = 7,
                 Outline = true,
@@ -3046,7 +3036,7 @@ function library:Load(options)
             local sectioncontent = utility.create("Square", {
                 Transparency = 0,
                 Size = UDim2.new(1, -16, 1, -28),
-                Position = UDim2.new(0, 8, 0, 23),
+                Position = UDim2.new(0, 8, 0, 20),
                 Parent = section
             })
 
@@ -3319,15 +3309,15 @@ function library:Load(options)
                     end
 
                     utility.changeobjecttheme(icon, toggled and "Accent" or "Object Background")
-                    --utility.changeobjecttheme(title, toggled and "Accent" or "Disabled Text")
+                    utility.changeobjecttheme(title, toggled and "Accent" or "Disabled Text")
                     icon.Color = toggled and library.theme["Accent"] or (mouseover and utility.changecolor(library.theme["Object Background"], 3) or library.theme["Object Background"])
 
                     if toggled then
                         table.insert(accentobjs, icon)
-                        --table.insert(accentobjs, title)
+                        table.insert(accentobjs, title)
                     else
                         table.remove(accentobjs, table.find(accentobjs, icon))
-                        --table.remove(accentobjs, table.find(accentobjs, title))
+                        table.remove(accentobjs, table.find(accentobjs, title))
                     end
                     
                     library.flags[flag] = toggled
