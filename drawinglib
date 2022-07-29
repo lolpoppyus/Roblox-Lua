@@ -2945,7 +2945,7 @@ function library:Load(options)
         local tabselect = utility.create("Square", {
             Filled = true,
             Thickness = 0,
-            Size = UDim2.new(1,0,-0.1,0),
+            Size = UDim2.new(1,0,0.1,0),
             Parent = tabtoggle,
             ZIndex = 10,
             Theme = "Accent"
@@ -3004,12 +3004,14 @@ function library:Load(options)
             for _, obj in next, self.tabtoggletitles do
                 if obj ~= title then
                     utility.changeobjecttheme(obj, "Disabled Text")
+                    tabselect.Visible = false
                 end 
             end
 
             for _, obj in next, self.tabs do
                 if obj ~= tab then
                     obj.Visible = false
+                    tabselect.Visible = false
                 end 
             end
             
