@@ -2929,7 +2929,7 @@ function library:Load(options)
             Transparency = 0,
             Visible = #self.tabs == 0,
             Parent = tabholder,
-            Size = UDim2.new(1, -16, 1, 0),
+            Size = UDim2.new(1, -16, 1, -16),
             Position = UDim2.new(0, 8, 0, 8)
         })
 
@@ -3013,7 +3013,7 @@ function library:Load(options)
             local section = utility.create("Square", {
                 Filled = true,
                 Thickness = 0,
-                Size = UDim2.new(1, 0, 0, 31),
+                Size = UDim2.new(1, 0, 0, 60),
                 Parent = column,
                 Theme = "Section Background",
                 ZIndex = 6
