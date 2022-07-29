@@ -3308,7 +3308,7 @@ function library:Load(options)
                     end
 
                     utility.changeobjecttheme(icon, toggled and "Accent" or "Object Background")
-                    utility.changeobjecttheme(title, toggled and "Accent" or "Disabled Text")
+                    --utility.changeobjecttheme(title, toggled and "Accent" or "Disabled Text")
                     icon.Color = toggled and library.theme["Accent"] or (mouseover and utility.changecolor(library.theme["Object Background"], 3) or library.theme["Object Background"])
 
                     if toggled then
