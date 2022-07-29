@@ -2897,7 +2897,7 @@ function library:Load(options)
         Parent = tabholder
     })
 
-    local windowtypes = utility.table({tabtoggles = {}, tabtoggleoutlines = {}, tabs = {}, tabtoggletitles = {}, count = 0}, true)
+    local windowtypes = utility.table({tabtoggles = {}, tabtoggleoutlines = {}, tabs = {}, tabtoggletitles = {}, tabselected = {}, count = 0}, true)
 
     function windowtypes:Tab(name)
         local tabtoggle = utility.create("Square", {
@@ -2916,13 +2916,13 @@ function library:Load(options)
             Size = UDim2.new(1,0,0.05,0),
             Position = UDim2.new(0,0,1,0),
             Parent = tabtoggle,
-            Visible = false,
             ZIndex = 10,
-            Theme = "Accent"
+            Theme = #self.tabtoggles == 1 and "Accent" or "Accent"
         })
 
         table.insert(self.tabtoggleoutlines, outline)
         table.insert(self.tabtoggles, tabtoggle)
+        table.insert(self.tabselected, tabselect)
 
         for i, v in next, self.tabtoggles do
             v.Size = UDim2.new(1 / #self.tabtoggles, i == 1 and 1 or i == #self.tabtoggles and -2 or -1, 2, 0)
@@ -3005,21 +3005,26 @@ function library:Load(options)
             for _, obj in next, self.tabtoggles do
                 if obj ~= tabtoggle then
                     utility.changeobjecttheme(obj, "Tab Background")
-                    tabselect.Visible = false
+
                 end
             end
 
             for _, obj in next, self.tabtoggletitles do
                 if obj ~= title then
                     utility.changeobjecttheme(obj, "Disabled Text")
-                    tabselect.Visible = false
+
                 end
             end
 
             for _, obj in next, self.tabs do
                 if obj ~= tab then
                     obj.Visible = false
-                    tabselect.Visible = false
+                end
+            end
+
+            for _, obj in next, self.tabselected do
+                if obj ~= tabselect then
+                    obj.Visible = false
                 end
             end
 
