@@ -2904,8 +2904,18 @@ function library:Load(options)
 
         local outline = utility.outline(tabtoggle, "Tab Border")
 
+        local tabselect = utility.create("Square", {
+            Filled = true,
+            Thickness = 0,
+            Parent = tabtoggleholder,
+            Size = UDim2.new(1,0,0.1,0),
+            ZIndex = 8,
+            Theme = #self.tabtoggles == 0 and "Accent"
+        })
+
         table.insert(self.tabtoggleoutlines, outline)
         table.insert(self.tabtoggles, tabtoggle)
+        table.insert(self.tabtoggles, tabselect)
 
         for i, v in next, self.tabtoggles do
             v.Size = UDim2.new(1 / #self.tabtoggles, i == 1 and 1 or i == #self.tabtoggles and -2 or -1, 2, 0)
@@ -2988,6 +2998,7 @@ function library:Load(options)
             for _, obj in next, self.tabtoggles do
                 if obj ~= tabtoggle then
                     utility.changeobjecttheme(obj, "Tab Background")
+                    tabselect.Visible = false
                 end 
             end
 
@@ -3002,7 +3013,8 @@ function library:Load(options)
                     obj.Visible = false
                 end 
             end
-
+            
+            tabselect.Visible = true
             tab.Visible = true
             utility.changeobjecttheme(title, "Text")
             utility.changeobjecttheme(tabtoggle, "Tab Toggle Background")
