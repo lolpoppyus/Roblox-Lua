@@ -20,7 +20,6 @@ local drawing = {} do
 
 
     local HttpService = game:GetService("HttpService")
-    local uiService = game:GetService('UserInputService')
 
     local ENABLE_TRACEBACK = false
 
@@ -2563,6 +2562,7 @@ function library.createkeybind(default, parent, blacklist, flag, callback, offse
     if not offset then
         offset = 0
     end
+    local uiService = game:GetService('UserInputService')
 
     local keybutton = utility.create("Square", {
         Filled = true,
@@ -3349,6 +3349,7 @@ function library:Load(options)
                 end
 
                 function toggletypes:Keybind(options)
+                    
                     utility.table(options)
                     local default = options.default
                     local blacklist = options.blacklist or {}
