@@ -1112,7 +1112,7 @@ local themes = {
     },
 
     Midnight = {
-        ["Accent"] = Color3.fromRGB(100, 59, 154),
+        ["Accent"] = Color3.fromRGB(229, 136, 154),
         ["Window Background"] = Color3.fromRGB(30, 30, 36),
         ["Window Border"] = Color3.fromRGB(45, 45, 49),
         ["Tab Background"] = Color3.fromRGB(20, 20, 24),
@@ -2929,7 +2929,7 @@ function library:Load(options)
             Transparency = 0,
             Visible = #self.tabs == 0,
             Parent = tabholder,
-            Size = UDim2.new(1, -16, 1, -16),
+            Size = UDim2.new(1, -16, 2, -16),
             Position = UDim2.new(0, 8, 0, 8)
         })
 
