@@ -3035,7 +3035,7 @@ function library:Load(options)
             local sectioncontent = utility.create("Square", {
                 Transparency = 0,
                 Size = UDim2.new(1, -16, 1, -28),
-                Position = UDim2.new(0, 8, 0, 20),
+                Position = UDim2.new(0, 8, 0, 23),
                 Parent = section
             })
 
