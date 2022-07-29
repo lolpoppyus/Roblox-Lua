@@ -2942,11 +2942,12 @@ function library:Load(options)
             Data = library.gradient
         })
 
-        local tabselect = utility.create("Image", {
-            Size = UDim2.new(1, 0, 0.24, 0),
-            Transparency = 0.5,
-            ZIndex = 10,
+        local tabselect = utility.create("Square", {
+            Filled = true,
+            Thickness = 0,
+            Size = UDim2.new(1,0,0.1,0),
             Parent = tabtoggle,
+            ZIndex = 10,
             Theme = "Accent"
         })
 
