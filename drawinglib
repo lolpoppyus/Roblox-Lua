@@ -3171,7 +3171,7 @@ function library:Load(options)
                     Filled = true,
                     Thickness = 0,
                     Theme = "Object Background",
-                    Size = UDim2.new(0.65, 0, 0, 20),
+                    Size = UDim2.new(0.65, 10, 0, 20),
                     ZIndex = 8,
                     Parent = sectioncontent
                 })
