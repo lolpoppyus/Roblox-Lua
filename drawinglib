@@ -2945,7 +2945,7 @@ function library:Load(options)
 
         local tabselect = utility.create("Image", {
             Size = UDim2.new(1, 0, 0.1, 0),
-            Transparency = 0.5,
+            Transparency = 1,
             ZIndex = 10,
             Parent = tabtoggle,
             Theme = "Accent"
