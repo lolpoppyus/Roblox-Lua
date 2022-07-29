@@ -3313,10 +3313,10 @@ function library:Load(options)
 
                     if toggled then
                         table.insert(accentobjs, icon)
-                        table.insert(accentobjs, title)
+                        --table.insert(accentobjs, title)
                     else
                         table.remove(accentobjs, table.find(accentobjs, icon))
-                        table.remove(accentobjs, table.find(accentobjs, title))
+                        --table.remove(accentobjs, table.find(accentobjs, title))
                     end
                     
                     library.flags[flag] = toggled
