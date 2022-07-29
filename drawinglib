@@ -2916,8 +2916,8 @@ function library:Load(options)
         local title = utility.create("Text", {
             Text = name,
             Font = Drawing.Fonts.Plex,
-            Size = 20,
-            Position = UDim2.new(0.5, 0, 0, -3),
+            Size = 13,
+            Position = UDim2.new(0.5, 0, 1, 0),
             Theme = #self.tabtoggles == 1 and "Text" or "Disabled Text",
             ZIndex = 7,
             Center = true,
