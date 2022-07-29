@@ -2929,7 +2929,7 @@ function library:Load(options)
             Transparency = 0,
             Visible = #self.tabs == 0,
             Parent = tabholder,
-            Size = UDim2.new(1, -16, 2, -16),
+            Size = UDim2.new(1, -16, 1, 0),
             Position = UDim2.new(0, 8, 0, 8)
         })
 
