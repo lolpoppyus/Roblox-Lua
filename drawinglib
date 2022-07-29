@@ -3361,13 +3361,16 @@ function library:Load(options)
                     uiService.TextBoxFocused:Connect(function(textBox)
                         if textBox.Name == 'ChatBar' then
                             focus = true
+                            print(focus)
                         end
                     end)
                     uiService.TextBoxFocusReleased:Connect(function(textBox)
                         if textBox.Name == 'ChatBar' then
                             focus = false
+                            print(focus)
                         end
                     end)
+
                     if focus == false then
                         utility.table(options)
                         local default = options.default
@@ -3383,7 +3386,7 @@ function library:Load(options)
 
                             callback(key, fromsetting)
                         end
-                        
+
                         return library.createkeybind(default, holder, blacklist, flag, mode == "toggle" and newcallback or callback, -2)
                     end
                 end
