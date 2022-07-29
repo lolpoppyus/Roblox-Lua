@@ -2945,7 +2945,7 @@ function library:Load(options)
         local tabselect = utility.create("Square", {
             Filled = true,
             Thickness = 0,
-            Size = UDim2.new(1,0,0.1,0),
+            Size = UDim2.new(1,0,-0.1,0),
             Parent = tabtoggle,
             ZIndex = 10,
             Theme = "Accent"
@@ -2997,6 +2997,7 @@ function library:Load(options)
             for _, obj in next, self.tabtoggles do
                 if obj ~= tabtoggle then
                     utility.changeobjecttheme(obj, "Tab Background")
+                    tabselect.Visible = false
                 end 
             end
 
@@ -3012,6 +3013,7 @@ function library:Load(options)
                 end 
             end
             
+            tabselect.Visible = true
             tab.Visible = true
             utility.changeobjecttheme(title, "Text")
             utility.changeobjecttheme(tabtoggle, "Tab Toggle Background")
