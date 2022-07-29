@@ -3359,24 +3359,22 @@ function library:Load(options)
                         end
                     end)
 
-                    if focus == false then
-                        utility.table(options)
-                        local default = options.default
-                        local blacklist = options.blacklist or {}
-                        local flag = options.flag or utility.nextflag()
-                        local mode = options.mode and options.mode:lower()
-                        local callback = options.callback or function() end
+                    utility.table(options)
+                    local default = options.default
+                    local blacklist = options.blacklist or {}
+                    local flag = options.flag or utility.nextflag()
+                    local mode = options.mode and options.mode:lower()
+                    local callback = options.callback or function() end
 
-                        local newcallback = function(key, fromsetting)
-                            if not fromsetting then
-                                set(not toggled)
-                            end
-
-                            callback(key, fromsetting)
+                    local newcallback = function(key, fromsetting)
+                        if not fromsetting then
+                            set(not toggled)
                         end
 
-                        return library.createkeybind(default, holder, blacklist, flag, mode == "toggle" and newcallback or callback, -2)
+                        callback(key, fromsetting)
                     end
+
+                    return library.createkeybind(default, holder, blacklist, flag, mode == "toggle" and newcallback or callback, -2) and focus == false
                 end
 
                 function toggletypes:Slider(options)
