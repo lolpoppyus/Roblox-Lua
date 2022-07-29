@@ -3347,13 +3347,11 @@ function library:Load(options)
                     services.UserInputService.TextBoxFocused:Connect(function(textBox)
                         if textBox.Name == 'ChatBar' then
                             focus = true
-                            print(focus)
                         end
                     end)
                     services.UserInputService.TextBoxFocusReleased:Connect(function(textBox)
                         if textBox.Name == 'ChatBar' then
                             focus = false
-                            print(focus)
                         end
                     end)
 
@@ -3747,6 +3745,17 @@ function library:Load(options)
             end
 
             function sectiontypes:Keybind(options)
+                services.UserInputService.TextBoxFocused:Connect(function(textBox)
+                    if textBox.Name == 'ChatBar' then
+                        focus = true
+                    end
+                end)
+                services.UserInputService.TextBoxFocusReleased:Connect(function(textBox)
+                    if textBox.Name == 'ChatBar' then
+                        focus = false
+                    end
+                end)
+
                 utility.table(options)
                 local name = options.name
                 local default = options.default
@@ -3774,7 +3783,7 @@ function library:Load(options)
 
                 section.Size = UDim2.new(1, 0, 0, sectioncontent.AbsoluteContentSize + 28)
 
-                return library.createkeybind(default, holder, blacklist, flag, callback, -1)
+                return library.createkeybind(default, holder, blacklist, flag, callback and focus == false, -1) and focus == false
             end
 
             return sectiontypes
