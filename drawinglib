@@ -2953,7 +2953,7 @@ function library:Load(options)
         local column1 = utility.create("Square", {
             Transparency = 0,
             Parent = tab,
-            Size = UDim2.new(0.5, -4, 1, 0)
+            Size = UDim2.new(0.5, -4, 0.5, 0)
         })
 
         column1:AddListLayout(12)
