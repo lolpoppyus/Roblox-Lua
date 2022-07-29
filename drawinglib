@@ -2932,14 +2932,14 @@ function library:Load(options)
             Visible = #self.tabs == 0,
             Parent = tabholder,
             Size = UDim2.new(1, -16, 1, -30),
-            Position = UDim2.new(0, 8, 0, 17)
+            Position = UDim2.new(0, 8, 0, 18)
         })
 
         utility.create("Image", {
             Size = UDim2.new(1, 0, 1, 0),
             Transparency = 0.5,
             ZIndex = 9,
-            Parent = tab,
+            Parent = tabtoggle,
             Data = library.gradient
         })
 
