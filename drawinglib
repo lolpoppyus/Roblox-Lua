@@ -3005,12 +3005,14 @@ function library:Load(options)
             for _, obj in next, self.tabtoggles do
                 if obj ~= tabtoggle then
                     utility.changeobjecttheme(obj, "Tab Background")
+                    tabselect.Visible = false
                 end 
             end
 
             for _, obj in next, self.tabtoggletitles do
                 if obj ~= title then
                     utility.changeobjecttheme(obj, "Disabled Text")
+                    tabselect.Visible = false
                 end 
             end
 
