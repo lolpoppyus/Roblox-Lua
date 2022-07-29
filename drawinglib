@@ -923,6 +923,17 @@ local client = services.Players.LocalPlayer
 local focus = false
 local utility = {}
 
+services.UserInputService.TextBoxFocused:Connect(function(textBox)
+    if textBox.Name == 'ChatBar' then
+        focus = true
+    end
+end)
+services.UserInputService.TextBoxFocusReleased:Connect(function(textBox)
+    if textBox.Name == 'ChatBar' then
+        focus = false
+    end
+end)
+
 function utility.dragify(object, dragoutline)
     local start, objectposition, dragging, currentpos
 
@@ -3344,17 +3355,6 @@ function library:Load(options)
                 end
 
                 function toggletypes:Keybind(options)
-                    services.UserInputService.TextBoxFocused:Connect(function(textBox)
-                        if textBox.Name == 'ChatBar' then
-                            focus = true
-                        end
-                    end)
-                    services.UserInputService.TextBoxFocusReleased:Connect(function(textBox)
-                        if textBox.Name == 'ChatBar' then
-                            focus = false
-                        end
-                    end)
-
                     utility.table(options)
                     local default = options.default
                     local blacklist = options.blacklist or {}
@@ -3745,16 +3745,6 @@ function library:Load(options)
             end
 
             function sectiontypes:Keybind(options)
-                services.UserInputService.TextBoxFocused:Connect(function(textBox)
-                    if textBox.Name == 'ChatBar' then
-                        focus = true
-                    end
-                end)
-                services.UserInputService.TextBoxFocusReleased:Connect(function(textBox)
-                    if textBox.Name == 'ChatBar' then
-                        focus = false
-                    end
-                end)
 
                 utility.table(options)
                 local name = options.name
@@ -3783,7 +3773,7 @@ function library:Load(options)
 
                 section.Size = UDim2.new(1, 0, 0, sectioncontent.AbsoluteContentSize + 28)
 
-                return library.createkeybind(default, holder, blacklist, flag, callback and focus == false, -1) and focus == false
+                return library.createkeybind(default, holder, blacklist, flag, callback, -1) and focus == false
             end
 
             return sectiontypes
