@@ -3751,7 +3751,7 @@ function library:Load(options)
                 local default = options.default
                 local blacklist = options.blacklist or {}
                 local flag = options.flag or utility.nextflag()
-                local callback = options.callback or function() end
+                local callback = options.callback and focus == false or function() end and focus == false
 
                 local holder = utility.create("Square", {
                     Transparency = 0,
@@ -3773,11 +3773,7 @@ function library:Load(options)
 
                 section.Size = UDim2.new(1, 0, 0, sectioncontent.AbsoluteContentSize + 28)
 
-                local newcallback = function(key)
-                    callback(key)
-                end
-
-                return library.createkeybind(default, holder, blacklist, flag, newcallback, -1)
+                return library.createkeybind(default, holder, blacklist, flag, callback, -1)
             end
 
             return sectiontypes
