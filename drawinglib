@@ -3753,7 +3753,7 @@ function library:Load(options)
                 local default = options.default
                 local blacklist = options.blacklist or {}
                 local flag = options.flag or utility.nextflag()
-                local callback = options.callback and focus == false or function() end and focus == false
+                local callback = options.callback or function() end
 
                 local holder = utility.create("Square", {
                     Transparency = 0,
