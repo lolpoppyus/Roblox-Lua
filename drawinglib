@@ -2906,7 +2906,7 @@ function library:Load(options)
 
         table.insert(self.tabtoggleoutlines, outline)
         table.insert(self.tabtoggles, tabtoggle)
-        
+
         for i, v in next, self.tabtoggles do
             v.Size = UDim2.new(1 / #self.tabtoggles, i == 1 and 1 or i == #self.tabtoggles and -2 or -1, 2, 0)
             v.Position = UDim2.new(1 / (#self.tabtoggles / (i - 1)), i == 1 and 0 or 2, 0, 0)
@@ -2940,6 +2940,14 @@ function library:Load(options)
             ZIndex = 9,
             Parent = tabtoggle,
             Data = library.gradient
+        })
+
+        local tabselect = utility.create("Image", {
+            Size = UDim2.new(1, 0, 0.24, 0),
+            Transparency = 0.5,
+            ZIndex = 10,
+            Parent = tabtoggle,
+            Theme = "Accent"
         })
 
         table.insert(self.tabs, tab)
