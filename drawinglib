@@ -2897,7 +2897,7 @@ function library:Load(options)
         Parent = tabholder
     })
 
-    local windowtypes = utility.table({tabtoggles = {}, tabtoggleoutlines = {}, tabs = {}, tabtoggletitles = {}, tabselectedline = {} , count = 0}, true)
+    local windowtypes = utility.table({tabtoggles = {}, tabtoggleoutlines = {}, tabs = {}, tabtoggletitles = {}, count = 0}, true)
 
     function windowtypes:Tab(name)
         local tabtoggle = utility.create("Square", {
@@ -2915,13 +2915,14 @@ function library:Load(options)
             Thickness = 0,
             Size = UDim2.new(1,0,0.1,0),
             Parent = tabtoggle,
+            Visible = false,
             ZIndex = 10,
-            Theme = #self.tabtoggles == 2 and "Accent"
+            Theme = "Accent"
         })
 
         table.insert(self.tabtoggleoutlines, outline)
         table.insert(self.tabtoggles, tabtoggle)
-        table.insert(self.tabselectedline, tabselect)
+
 
         for i, v in next, self.tabtoggles do
             v.Size = UDim2.new(1 / #self.tabtoggles, i == 1 and 1 or i == #self.tabtoggles and -2 or -1, 2, 0)
@@ -3016,15 +3017,10 @@ function library:Load(options)
             for _, obj in next, self.tabs do
                 if obj ~= tab then
                     obj.Visible = false
+                    tabselect.Visible = false
                 end 
             end
 
-            for _, obj in next, self.tabselectedline do
-                if obj ~= tabselect then
-                    obj.Visible = false
-                end
-            end
-            
             tabselect.Visible = true
             tab.Visible = true
             utility.changeobjecttheme(title, "Text")
