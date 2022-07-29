@@ -2943,14 +2943,6 @@ function library:Load(options)
             Data = library.gradient
         })
 
-        local tabselect = utility.create("Image", {
-            Size = UDim2.new(1, 0, 0.1, 0),
-            Transparency = 1,
-            ZIndex = 10,
-            Parent = tabtoggle,
-            Theme = "Accent"
-        })
-
         table.insert(self.tabs, tab)
 
         task.spawn(function()
@@ -2997,7 +2989,6 @@ function library:Load(options)
             for _, obj in next, self.tabtoggles do
                 if obj ~= tabtoggle then
                     utility.changeobjecttheme(obj, "Tab Background")
-                    tabselect.Visible = false
                 end 
             end
 
@@ -3013,7 +3004,6 @@ function library:Load(options)
                 end 
             end
             
-            tabselect.Visible = true
             tab.Visible = true
             utility.changeobjecttheme(title, "Text")
             utility.changeobjecttheme(tabtoggle, "Tab Toggle Background")
