@@ -2916,12 +2916,12 @@ function library:Load(options)
             Size = UDim2.new(1,0,0.1,0),
             Parent = tabtoggle,
             ZIndex = 10,
-            Theme = #self.tabselectedline == 0 and "Accent"
+            Theme = #self.tabtoggles == 2 and "Accent"
         })
 
         table.insert(self.tabtoggleoutlines, outline)
         table.insert(self.tabtoggles, tabtoggle)
-        table.insert(self.tabselectedline,tabselect)
+        table.insert(self.tabselectedline, tabselect)
 
         for i, v in next, self.tabtoggles do
             v.Size = UDim2.new(1 / #self.tabtoggles, i == 1 and 1 or i == #self.tabtoggles and -2 or -1, 2, 0)
