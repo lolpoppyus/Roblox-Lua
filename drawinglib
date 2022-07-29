@@ -325,7 +325,9 @@ local drawing = {} do
         end
     end)
 
-    local versions = "0.1.1"
+    function version()
+        return "0.1.1"
+    end
 
     function drawing:new(shape)
         local obj = Drawing.new(shape)
