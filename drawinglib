@@ -2907,7 +2907,7 @@ function library:Load(options)
         table.insert(self.tabtoggles, tabtoggle)
 
         for i, v in next, self.tabtoggles do
-            v.Size = UDim2.new(1 / #self.tabtoggles, i == 1 and 1 or i == #self.tabtoggles and -2 or -1, 1, 0)
+            v.Size = UDim2.new(1 / #self.tabtoggles, i == 1 and 1 or i == #self.tabtoggles and -2 or -1, 5, 0)
             v.Position = UDim2.new(1 / (#self.tabtoggles / (i - 1)), i == 1 and 0 or 2, 0, 0)
         end
 
