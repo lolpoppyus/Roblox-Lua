@@ -3364,7 +3364,7 @@ function library:Load(options)
 
                     local newcallback = function(key, fromsetting)
                         if not fromsetting then
-                            set(not toggled and focus == false)
+                            set(not toggled)
                         end
 
                         if focus == false then
