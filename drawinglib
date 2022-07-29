@@ -3005,14 +3005,12 @@ function library:Load(options)
             for _, obj in next, self.tabtoggles do
                 if obj ~= tabtoggle then
                     utility.changeobjecttheme(obj, "Tab Background")
-
                 end
             end
 
             for _, obj in next, self.tabtoggletitles do
                 if obj ~= title then
                     utility.changeobjecttheme(obj, "Disabled Text")
-
                 end
             end
 
@@ -3070,7 +3068,7 @@ function library:Load(options)
             local sectioncontent = utility.create("Square", {
                 Transparency = 0,
                 Size = UDim2.new(1, -16, 1, -28),
-                Position = UDim2.new(0, 8, 0, 16),
+                Position = UDim2.new(0, 8, 0, 10),
                 Parent = section
             })
 
