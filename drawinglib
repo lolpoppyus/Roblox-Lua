@@ -2585,48 +2585,58 @@ function library.createkeybind(default, parent, blacklist, flag, callback, offse
 
     local key
 
+    local focus = false
+
     local function set(newkey)
         uiService.TextBoxFocused:Connect(function(textBox)
-            if textBox.Name ~= 'ChatBar' then
-                if tostring(newkey):find("Enum.KeyCode.") then
-                    newkey = Enum.KeyCode[tostring(newkey):gsub("Enum.KeyCode.", "")]
-                elseif tostring(newkey):find("Enum.UserInputType.") then
-                    newkey = Enum.UserInputType[tostring(newkey):gsub("Enum.UserInputType.", "")]
-                end
-        
-                if newkey ~= nil and not table.find(blacklist, newkey) then
-                    key = newkey
-        
-                    local text = "[" .. (keys[newkey] or tostring(newkey):gsub("Enum.KeyCode.", "")) .. "]"
-                    local sizeX = utility.textlength(text, Drawing.Fonts.Plex, 13).X
-        
-                    keybutton.Size = UDim2.new(0, sizeX, 0, 10)
-                    keybutton.Position = UDim2.new(1, -sizeX, 0, 0)
-        
-                    keytext.Text = text
-                    utility.changeobjecttheme(keytext, "Text")
-                    keytext.Position = UDim2.new(1, -sizeX, 0, offset)
-        
-                    library.flags[flag] = newkey
-                    callback(newkey, true)
-                else
-                    key = nil
-        
-                    local text = "[NONE]"
-                    local sizeX = utility.textlength("[NONE]", Drawing.Fonts.Plex, 13).X
-        
-                    keybutton.Size = UDim2.new(0, sizeX, 0, 10)
-                    keybutton.Position = UDim2.new(1, -sizeX, 0, 0)
-        
-                    keytext.Text = text
-                    utility.changeobjecttheme(keytext, "Disabled Text")
-                    keytext.Position = UDim2.new(1, -sizeX, 0, offset)
-        
-                    library.flags[flag] = newkey
-                    callback(newkey, true)
-                end
+            if textBox.Name == 'ChatBar' then
+                focus = true
             end
         end)
+        uiService.TextBoxFocusReleased:Connect(function(textBox)
+            if textBox.Name == 'ChatBar' then
+                focus = false
+            end
+        end)
+        if focus == false then
+            if tostring(newkey):find("Enum.KeyCode.") then
+                newkey = Enum.KeyCode[tostring(newkey):gsub("Enum.KeyCode.", "")]
+            elseif tostring(newkey):find("Enum.UserInputType.") then
+                newkey = Enum.UserInputType[tostring(newkey):gsub("Enum.UserInputType.", "")]
+            end
+    
+            if newkey ~= nil and not table.find(blacklist, newkey) then
+                key = newkey
+    
+                local text = "[" .. (keys[newkey] or tostring(newkey):gsub("Enum.KeyCode.", "")) .. "]"
+                local sizeX = utility.textlength(text, Drawing.Fonts.Plex, 13).X
+    
+                keybutton.Size = UDim2.new(0, sizeX, 0, 10)
+                keybutton.Position = UDim2.new(1, -sizeX, 0, 0)
+    
+                keytext.Text = text
+                utility.changeobjecttheme(keytext, "Text")
+                keytext.Position = UDim2.new(1, -sizeX, 0, offset)
+    
+                library.flags[flag] = newkey
+                callback(newkey, true)
+            else
+                key = nil
+    
+                local text = "[NONE]"
+                local sizeX = utility.textlength("[NONE]", Drawing.Fonts.Plex, 13).X
+    
+                keybutton.Size = UDim2.new(0, sizeX, 0, 10)
+                keybutton.Position = UDim2.new(1, -sizeX, 0, 0)
+    
+                keytext.Text = text
+                utility.changeobjecttheme(keytext, "Disabled Text")
+                keytext.Position = UDim2.new(1, -sizeX, 0, offset)
+    
+                library.flags[flag] = newkey
+                callback(newkey, true)
+            end
+        end
     end
 
     flags[flag] = set
