@@ -2910,7 +2910,7 @@ function library:Load(options)
             Size = UDim2.new(1,0,0.1,0),
             Parent = tabtoggle,
             ZIndex = 10,
-            Theme = #self.tabselectedline == 1 and "Accent"
+            Theme = #self.tabselectedline == 0 and "Accent"
         })
 
         table.insert(self.tabtoggleoutlines, outline)
