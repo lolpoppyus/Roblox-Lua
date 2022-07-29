@@ -2901,6 +2901,8 @@ function library:Load(options)
             Theme = #self.tabtoggles == 0 and "Tab Toggle Background" or "Tab Background"
         })
 
+
+
         local outline = utility.outline(tabtoggle, "Tab Border")
 
         table.insert(self.tabtoggleoutlines, outline)
@@ -2931,6 +2933,14 @@ function library:Load(options)
             Parent = tabholder,
             Size = UDim2.new(1, -16, 1, -30),
             Position = UDim2.new(0, 8, 0, 16)
+        })
+
+        utility.create("Image", {
+            Size = UDim2.new(1, 0, 1, 0),
+            Transparency = 0.5,
+            ZIndex = 9,
+            Parent = tab,
+            Data = library.gradient
         })
 
         table.insert(self.tabs, tab)
