@@ -2916,7 +2916,7 @@ function library:Load(options)
             Text = name,
             Font = Drawing.Fonts.Plex,
             Size = 13,
-            Position = UDim2.new(0.5, 0, 0, 0),
+            Position = UDim2.new(0.5, 0, 0.1, 0),
             Theme = #self.tabtoggles == 1 and "Text" or "Disabled Text",
             ZIndex = 7,
             Center = true,
@@ -3055,7 +3055,7 @@ function library:Load(options)
             function sectiontypes:Label(name)
                 local label = utility.create("Square", {
                     Transparency = 0,
-                    Size = UDim2.new(1, 0, 0, 13),
+                    Size = UDim2.new(1, 0, 0, 31),
                     Parent = sectioncontent
                 })
 
