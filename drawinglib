@@ -2904,15 +2904,6 @@ function library:Load(options)
 
         local outline = utility.outline(tabtoggle, "Tab Border")
 
-        local tabselect = utility.create("Square", {
-            Filled = true,
-            Thickness = 0,
-            Parent = tabtoggleholder,
-            Size = UDim2.new(1,0,0.1,0),
-            ZIndex = 8,
-            Theme = #self.tabtoggles == 0 and "Accent"
-        })
-
         table.insert(self.tabtoggleoutlines, outline)
         table.insert(self.tabtoggles, tabtoggle)
         table.insert(self.tabtoggles, tabselect)
@@ -2950,6 +2941,14 @@ function library:Load(options)
             ZIndex = 9,
             Parent = tabtoggle,
             Data = library.gradient
+        })
+
+        local tabselect = utility.create("Image", {
+            Size = UDim2.new(1, 0, 0.1, 0),
+            Transparency = 0.5,
+            ZIndex = 10,
+            Parent = tabtoggle,
+            Theme = "Accent"
         })
 
         table.insert(self.tabs, tab)
