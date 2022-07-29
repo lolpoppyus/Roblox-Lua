@@ -2585,19 +2585,7 @@ function library.createkeybind(default, parent, blacklist, flag, callback, offse
 
     local key
 
-    local focus = false
-
     local function set(newkey)
-        uiService.TextBoxFocused:Connect(function(textBox)
-            if textBox.Name == 'ChatBar' then
-                focus = true
-            end
-        end)
-        uiService.TextBoxFocusReleased:Connect(function(textBox)
-            if textBox.Name == 'ChatBar' then
-                focus = false
-            end
-        end)
         if tostring(newkey):find("Enum.KeyCode.") then
             newkey = Enum.KeyCode[tostring(newkey):gsub("Enum.KeyCode.", "")]
         elseif tostring(newkey):find("Enum.UserInputType.") then
@@ -3356,15 +3344,15 @@ function library:Load(options)
                 end
 
                 function toggletypes:Keybind(options)
-                    local uiService = game:GetService('UserInputService')
+                    
                     local focus = false
-                    uiService.TextBoxFocused:Connect(function(textBox)
+                    services.UserInputService.TextBoxFocused:Connect(function(textBox)
                         if textBox.Name == 'ChatBar' then
                             focus = true
                             print(focus)
                         end
                     end)
-                    uiService.TextBoxFocusReleased:Connect(function(textBox)
+                    services.UserInputService.TextBoxFocusReleased:Connect(function(textBox)
                         if textBox.Name == 'ChatBar' then
                             focus = false
                             print(focus)
