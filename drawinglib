@@ -3171,7 +3171,7 @@ function library:Load(options)
                     Filled = true,
                     Thickness = 0,
                     Theme = "Object Background",
-                    Size = UDim2.new(0.65, 50, 0, 20),
+                    Size = UDim2.new(1, 0, 0, 20),
                     ZIndex = 8,
                     Parent = sectioncontent
                 })
@@ -3190,7 +3190,7 @@ function library:Load(options)
                     Text = name,
                     Font = Drawing.Fonts.Plex,
                     Size = 13,
-                    Position = UDim2.new(0.5, 0, 0.5, 0),
+                    Position = UDim2.new(0.5, 0, 0.25, 0),
                     Center = true,
                     Theme = "Text",
                     ZIndex = 8,
