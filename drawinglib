@@ -920,7 +920,7 @@ local services = setmetatable({}, {
 })
 
 local client = services.Players.LocalPlayer
-
+local focus = false
 local utility = {}
 
 function utility.dragify(object, dragoutline)
@@ -3344,8 +3344,6 @@ function library:Load(options)
                 end
 
                 function toggletypes:Keybind(options)
-                    
-                    local focus = false
                     services.UserInputService.TextBoxFocused:Connect(function(textBox)
                         if textBox.Name == 'ChatBar' then
                             focus = true
@@ -3368,7 +3366,7 @@ function library:Load(options)
 
                     local newcallback = function(key, fromsetting)
                         if not fromsetting then
-                            set(not toggled)
+                            set(not toggled and focus == false)
                         end
 
                         callback(key, fromsetting)
