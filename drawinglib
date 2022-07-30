@@ -3372,7 +3372,7 @@ function library:Load(options)
                         end
                     end
 
-                    return library.createkeybind(default, holder, blacklist, flag, mode == "toggle" and newcallback or callback, -2) and focus == false
+                    return library.createkeybind(default, holder, blacklist, flag, mode == "toggle" and newcallback or callback, -2)
                 end
 
                 function toggletypes:Slider(options)
