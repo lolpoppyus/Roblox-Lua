@@ -2020,7 +2020,6 @@ function library.createslider(min, max, parent, text, default, float, flag, call
         Size = 13,
         Position = UDim2.new(0.5, 0, 0, -2),
         Theme = "Text",
-        Center = true,
         ZIndex = 10,
         Outline = true,
         Parent = slider
