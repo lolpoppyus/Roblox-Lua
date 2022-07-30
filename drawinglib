@@ -2881,6 +2881,7 @@ function library:Load(options)
             Size = UDim2.new(1,0,0.05,0),
             Position = UDim2.new(0,0,1,-2),
             Parent = tabtoggle,
+            Visible = false,
             ZIndex = 10,
             Theme = #self.tabtoggles == 1 and "Accent" or "Accent"
         })
