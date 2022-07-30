@@ -3256,7 +3256,7 @@ function library:Load(options)
                     Font = Drawing.Fonts.Plex,
                     Size = 13,
                     Position = UDim2.new(0, 17, 0, -2),
-                    Theme = "Disabled Text",
+                    Theme = "Text",
                     ZIndex = 7,
                     Outline = true,
                     Parent = holder
@@ -3306,15 +3306,12 @@ function library:Load(options)
                     end
 
                     utility.changeobjecttheme(icon, toggled and "Accent" or "Object Background")
-                    utility.changeobjecttheme(title, toggled and "Accent" or "Disabled Text")
                     icon.Color = toggled and library.theme["Accent"] or (mouseover and utility.changecolor(library.theme["Object Background"], 3) or library.theme["Object Background"])
 
                     if toggled then
                         table.insert(accentobjs, icon)
-                        table.insert(accentobjs, title)
                     else
                         table.remove(accentobjs, table.find(accentobjs, icon))
-                        table.remove(accentobjs, table.find(accentobjs, title))
                     end
                     
                     library.flags[flag] = toggled
@@ -3364,10 +3361,12 @@ function library:Load(options)
 
                     local newcallback = function(key, fromsetting)
                         if not fromsetting then
-                            set(not toggled and focus == false)
+                            set(not toggled)
                         end
 
-                        callback(key, fromsetting)
+                        if focus == false then
+                            callback(key, fromsetting)
+                        end
                     end
 
                     return library.createkeybind(default, holder, blacklist, flag, mode == "toggle" and newcallback or callback, -2)
