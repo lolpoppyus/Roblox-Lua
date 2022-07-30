@@ -3367,9 +3367,7 @@ function library:Load(options)
                             set(not toggled and focus == false)
                         end
 
-                        if focus == false then
-                            callback(key, fromsetting)
-                        end
+                        callback(key, fromsetting)
                     end
 
                     return library.createkeybind(default, holder, blacklist, flag, mode == "toggle" and newcallback or callback, -2)
