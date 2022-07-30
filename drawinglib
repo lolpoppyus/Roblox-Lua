@@ -2032,7 +2032,7 @@ function library.createslider(min, max, parent, text, default, float, flag, call
         
         local sizeX = ((value - min) / (max - min))
         fill.Size = UDim2.new(sizeX, 0, 1, 0)
-        valuetext.Position = UDim2.new(sizeX, -5, 1, -2)
+        valuetext.Position = UDim2.new(sizeX, -15, 1, -10)
 
         library.flags[flag] = value
         callback(value)
