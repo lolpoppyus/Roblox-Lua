@@ -3,12 +3,6 @@ local Lplayer = players.LocalPlayer
 local VirtualInputManager = game:GetService('VirtualInputManager')
 local Mouse = Lplayer:GetMouse()
 local camera = game:GetService("Workspace").CurrentCamera
-getgenv().Iris = false
-
-if getgenv().Iris == false then
-    loadstring(game:HttpGet("https://irisapp.ca/api/Scripts/IrisBetterCompat.lua"))()
-    getgenv().Iris = true
-end
 
 -- // Load
 
@@ -43,6 +37,7 @@ local isScriptWare = false
 fontType = nil
 if getexecutorname() == "ScriptWare" then
     isScriptWare = true
+    loadstring(game:HttpGet("https://irisapp.ca/api/Scripts/IrisBetterCompat.lua"))()
     if isScriptWare then
         fontType = 1
     else
