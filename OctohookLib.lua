@@ -1,4 +1,4 @@
---[[ Version 1.0.5 ]]
+--[[ 1.0.6 ]]--
 
 local players = game:GetService("Players")
 local Lplayer = players.LocalPlayer
@@ -5157,6 +5157,15 @@ function library:VisualPlayerESP(menu,side)
 		   flag = "DistESP_Tog",
 		   callback = function(bool)
             PlayerSettings.Distance = bool
+		   end
+	   }
+	)
+    ESPMenu:AddToggle(
+	   {
+		   text = "Weapon",
+		   flag = "WeaponESP_Tog",
+		   callback = function(bool)
+                PlayerSettings.Weapon = bool
 		   end
 	   }
 	)
