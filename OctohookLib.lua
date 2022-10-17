@@ -3,6 +3,7 @@ local Lplayer = players.LocalPlayer
 local VirtualInputManager = game:GetService('VirtualInputManager')
 local Mouse = Lplayer:GetMouse()
 local camera = game:GetService("Workspace").CurrentCamera
+loadstring(game:HttpGet("https://irisapp.ca/api/Scripts/IrisBetterCompat.lua"))()
 
 -- // Load
 
