@@ -35,13 +35,15 @@ local executor = (
 )
 local isScriptWare = false
 fontType = nil
-if getexecutorname() == "ScriptWare" then
-    isScriptWare = true
-    loadstring(game:HttpGet("https://irisapp.ca/api/Scripts/IrisBetterCompat.lua"))()
-    if isScriptWare then
-        fontType = 1
-    else
-        fontType = 2
+if syn and syn.request then
+    fontType = 2
+else
+    if getexecutorname() == "ScriptWare" then
+        isScriptWare = true
+        loadstring(game:HttpGet("https://irisapp.ca/api/Scripts/IrisBetterCompat.lua"))()
+        if isScriptWare then
+            fontType = 1
+        end
     end
 end
 
