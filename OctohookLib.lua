@@ -1,3 +1,5 @@
+--[[ Version 1.0.5 ]]
+
 local players = game:GetService("Players")
 local Lplayer = players.LocalPlayer
 local VirtualInputManager = game:GetService('VirtualInputManager')
