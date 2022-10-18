@@ -1,4 +1,4 @@
---[[ 1.0.6 ]]--
+--[[ 1.0.7 ]]
 
 local players = game:GetService("Players")
 local Lplayer = players.LocalPlayer
@@ -4856,7 +4856,7 @@ function library:CreateLocalPlayer(menu,side)
 	playerMenu:AddToggle(
 		{
 			text = "WalkSpeed Toggle",
-			flag = "",
+			flag = "walkSpeed_Tog",
 			callback = function(bool)
 				walkTog = bool
 				if bool == false then
@@ -4883,7 +4883,7 @@ function library:CreateLocalPlayer(menu,side)
 	local jumpToggle = playerMenu:AddToggle(
 		{
 			text = "JumpPower Toggle",
-			flag = "",
+			flag = "jumpPower_Tog",
 			callback = function(bool)
 				jumpTog = bool
 				if bool == false then
@@ -4956,7 +4956,7 @@ function library:CreateLocalPlayer(menu,side)
 	playerMenu:AddToggle(
 	   {
 		   text = "Noclip",
-		   flag = "",
+		   flag = "noclip_Tog",
 		   callback = function(bool)
                 nocliptog = bool
                 NoClip()
