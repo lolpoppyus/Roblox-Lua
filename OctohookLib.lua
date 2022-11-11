@@ -1,4 +1,5 @@
---[[ 1.0.9 ]]
+--[[ 1.1.0 ]]
+
 
 local players = game:GetService("Players")
 local Lplayer = players.LocalPlayer
@@ -4868,10 +4869,10 @@ function library:CreateLocalPlayer(menu,side)
 	):AddSlider(
 		{
 			text = "Walk Speed", 
-			flag = '"', 
-			suffix = "/100", 
+			flag = 'walkspeed_flag', 
+			suffix = "/250", 
 			min = 16, 
-			max = 100, 
+			max = 250, 
 			increment = 1,
 			callback = function(val)
 				if walkTog then
@@ -4895,7 +4896,7 @@ function library:CreateLocalPlayer(menu,side)
 	):AddSlider(
 		{
 			text = "Jump Power", 
-			flag = '"', 
+			flag = 'jumppower_flag', 
 			suffix = "/250", 
 			min = 50, 
 			max = 250, 
@@ -5374,7 +5375,7 @@ function library:CreateSettingsTab(menu)
         end;
         -- 
         local main_section = settings:AddSection("Main", 2); do
-            main_section:AddBind({text = "Open / Close", flag = "togglebind", nomouse = true, noindicator = true, bind = Enum.KeyCode.End, callback = function()
+            main_section:AddBind({text = "Open / Close", flag = "togglebind", nomouse = true, noindicator = true, bind = Enum.KeyCode.RightAlt, callback = function()
                 library:SetOpen(not library.open)
             end});
             main_section:AddButton({text = "Join Discord",  callback = function()
