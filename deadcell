@@ -158,54 +158,6 @@ function utility.rgba(r, g, b, alpha)
     return rgb
 end
 
-function library:Watermark(str)
-    local size = utility.textlength(str, Drawing.Fonts.Plex, 13).X
-
-    local watermark = utility.create("Square", {
-        Size = UDim2.new(0, size + 16, 0, 20),
-        Position = UDim2.new(0, 16, 0, 16),
-        Filled = true,
-        Thickness = 0,
-        ZIndex = 3,
-        Theme = "Window Background"
-    })
-
-    self.watermarkobject = watermark
-
-    local outline = utility.outline(watermark, "Accent")
-    utility.outline(outline, "Window Border")
-    
-    local text = utility.create("Text", {
-        Text = str,
-        Font = Drawing.Fonts.Plex,
-        Size = 13,
-        Position = UDim2.new(0.5, 0, 0, 3),
-        Theme = "Text",
-        Center = true,
-        ZIndex = 4,
-        Outline = true,
-        Parent = watermark,
-    })
-
-    local watermarktypes = utility.table({}, true)
-
-    local open = true
-
-    function watermarktypes:Hide()
-        open = not open
-        watermark.Visible = open
-    end
-
-    function watermarktypes:Set(str)
-        local size = utility.textlength(str, Drawing.Fonts.Plex, 13).X
-        watermark.Size = UDim2.new(0, size + 16, 0, 20)
-        watermark.Position = UDim2.new(0, 16, 0, 16)
-        text.Text = str
-    end
-
-    return watermarktypes
-end
-
 local themes = {
     ["Default"] = {
         ["Accent"] = settings.default_accent,
