@@ -1,7 +1,7 @@
 -- settings (so u dont have to scroll)
 local settings = {
-    folder_name = "zephyrus"; -- stupid shit
-    default_accent = Color3.fromRGB(61, 100, 227); -- also stupid shit
+    folder_name = "Poppyus"; -- stupid shit
+    default_accent = Color3.fromRGB(206, 115, 136); -- also stupid shit
 };
 
 local drawing = loadstring(game:HttpGet("https://gist.githubusercontent.com/notportal/043d5c6024b9307e6fa39e090df4f93e/raw/457097fcf289cff78073046e924ac19c928e9d66/extension.lua"))();
@@ -177,7 +177,7 @@ local themes = {
 }
 
 local themeobjects = {}
-local library = {theme = table.clone(themes.Default),currentcolor = nil, folder = "zephyrus", flags = {}, open = true, mousestate = services.InputService.MouseIconEnabled, cursor = nil, holder = nil, connections = {}, notifications = {}};
+local library = {theme = table.clone(themes.Default),currentcolor = nil, folder = "Poppyus", flags = {}, open = true, mousestate = services.InputService.MouseIconEnabled, cursor = nil, holder = nil, connections = {}, notifications = {}};
 local decode = (syn and syn.crypt.base64.decode) or (crypt and crypt.base64decode) or base64_decode
 library.gradient = images.gradient90 --decode("iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVChTxY9BDoAgDASLGD2ReOYNPsR/+BAfroI7hibe9OYmky2wbUPIOdsXdc1f9WMwppQm+SDGBnUvomAQBH49qzhFEag25869ElzaIXDhD4JGbyoEVxUedN8FKwnfmwhucgKICc+pNB1mZhdCdhsa2ky0FAAAAABJRU5ErkJggg==")
 library.utility = utility
@@ -1446,7 +1446,7 @@ function library:new_window(cfg)
         --
         local page_title = utility.create("Text", {Text = page_name, Parent = page_button, Visible = true, Transparency = 1, Theme = "Text", Size = 13, Center = true, Outline = false, OutlineColor = Color3.fromRGB(50,50,50), Font = Drawing.Fonts.Plex, Position = UDim2.new(0.5,0,0,6), ZIndex = 4});
         --
-        local page_button_accent = utility.create("Square", {Parent = page_button, Visible = false, Transparency = 1, Theme = "Accent", Size = UDim2.new(1,0,0,1), Position = UDim2.new(0,0,0,1), Thickness = 1, Filled = true, ZIndex = 4}) do
+        local page_button_accent = utility.create("Square", {Parent = page_button, Visible = false, Transparency = 1, Theme = "Accent", Size = UDim2.new(1,0,0,1), Position = UDim2.new(0,0,1,-1), Thickness = 1, Filled = true, ZIndex = 4}) do
             table.insert(self.page_accents, page_button_accent);
         end;
         --
@@ -1510,7 +1510,7 @@ function library:new_window(cfg)
             local section_title = utility.create("Text", {Text = section_name, Parent = section, Visible = true, Transparency = 1, Theme = "Text", Size = 13, Center = false, Outline = false, Font = Drawing.Fonts.Plex, Position = UDim2.new(0,10,0,-8), ZIndex = 5});
             local section_title_bold = utility.create("Text", {Text = section_name, Parent = section, Visible = true, Transparency = 1, Theme = "Text", Size = 13, Center = false, Outline = false, Font = Drawing.Fonts.Plex, Position = UDim2.new(0,11,0,-8), ZIndex = 5});
             --
-            local section_content = utility.create("Square", {Transparency = 0,Size = UDim2.new(1, -32, 1, -10),Position = UDim2.new(0, 16, 0, 15),Parent = section,ZIndex = 6});
+            local section_content = utility.create("Square", {Transparency = 0,Size = UDim2.new(0.75, -32, 1, -10),Position = UDim2.new(0.18, 0, 0, 15),Parent = section,ZIndex = 6});
             section_content:AddListLayout(8)
             -- create toggle
             function section_tbl:new_toggle(cfg)
@@ -1523,15 +1523,15 @@ function library:new_window(cfg)
                 local callback = cfg.callback or cfg.Callback or function() end;
                 local toggled = false;
                 -- drawings
-                local holder = utility.create("Square", {Parent = section_content, Visible = true, Transparency = 0, Size = UDim2.new(1,0,0,8), Thickness = 1, Filled = true, ZIndex = 8});
+                local holder = utility.create("Square", {Parent = section_content, Visible = true, Transparency = 0, Size = UDim2.new(1,0,0,8),Position = UDim2.new(0,-25,0,0), Thickness = 1, Filled = true, ZIndex = 8});
                 --
-                local toggle_frame = utility.create("Square", {Parent = holder, Visible = true, Transparency = 1, Theme = "Object Background", Size = UDim2.new(0,8,0,8), Thickness = 1, Filled = true, ZIndex = 7}) do
+                local toggle_frame = utility.create("Square", {Parent = holder, Visible = true, Transparency = 1,Position = UDim2.new(0,-25,0,0), Theme = "Object Background", Size = UDim2.new(0,8,0,8), Thickness = 1, Filled = true, ZIndex = 7}) do
                     local outline = utility.outline(toggle_frame, "Section Inner Border");
                     utility.outline(outline, "Section Outer Border");
                 end;
                 local gradient = utility.create("Image", {Data = library.gradient, Transparency = 0.5, Visible = false, Parent = toggle_frame, Size = UDim2.new(1,0,1,0), ZIndex = 8});
                 --
-                local toggle_title = utility.create("Text", {Text = toggle_name, Parent = holder, Visible = true, Transparency = 1, Theme = toggle_risky and "Risky Text" or "Text", Size = 13, Center = false, Outline = false, Font = Drawing.Fonts.Plex, Position = UDim2.new(0,13,0,-3), ZIndex = 6});
+                local toggle_title = utility.create("Text", {Text = toggle_name, Parent = holder, Visible = true, Transparency = 1, Theme = toggle_risky and "Risky Text" or "Text", Size = 13, Center = false, Outline = false, Font = Drawing.Fonts.Plex, Position = UDim2.new(0,-2,0,-3), ZIndex = 6});
                 --local toggle_title_shadow = utility.create("Text", {Text = toggle_name, Parent = holder, Visible = true, Transparency = 1, Color = Color3.new(0,0,0), Size = 13, Center = false, Outline = false, Font = Drawing.Fonts.Plex, Position = UDim2.new(0,14,0,-2), ZIndex = 5});
                 -- functions
                 local function setstate()
@@ -1586,9 +1586,17 @@ function library:new_window(cfg)
                 -- settings
                 local slider_tbl = {};
                 local name = cfg.name or cfg.Name or "new slider";
+                local styled = cfg.style == "Percent" or cfg.style == "Int" or cfg.style == "Studs"
                 local min = cfg.min or cfg.minimum or 0;
                 local max = cfg.max or cfg.maximum or 100;
-                local text = cfg.text or ("[value]/"..max);
+                local text = cfg.text or ("[value]");
+                if cfg.style == "Percent" then
+                    text = cfg.text or ("[value]%")
+                elseif cfg.style == "Int" then
+                    text = cfg.text or ("[value]")
+                elseif cfg.style == "Studs" then
+                    text = cfg.text or ("[value]s")
+                end
                 local float = cfg.float or 1;
                 local default = cfg.default and math.clamp(cfg.default, min, max) or min;
                 local flag = cfg.flag or utility.nextflag();
@@ -1596,7 +1604,7 @@ function library:new_window(cfg)
                 -- drawings
                 local holder = utility.create("Square", {Parent = section_content, Visible = true, Transparency = 0, Size = UDim2.new(1,0,0,20), Thickness = 1, Filled = true, ZIndex = 6});
                 --
-                local slider_frame = utility.create("Square", {Parent = holder, Visible = true, Transparency = 1, Theme = "Object Background", Size = UDim2.new(1,0,0,5), Thickness = 1, Filled = true, ZIndex = 7, Position = UDim2.new(0,0,0,15)}) do
+                local slider_frame = utility.create("Square", {Parent = holder, Visible = true, Transparency = 1, Theme = "Object Background", Size = UDim2.new(1,0,0,10), Thickness = 1, Filled = true, ZIndex = 7, Position = UDim2.new(0,0,0,15)}) do
                     local outline = utility.outline(slider_frame, "Section Inner Border");
                     utility.outline(outline, "Section Outer Border");
                 end;
@@ -1605,7 +1613,11 @@ function library:new_window(cfg)
                 local slider_title = utility.create("Text", {Text = name, Parent = holder, Visible = true, Transparency = 1, Theme = "Text", Size = 13, Center = false, Outline = false, Font = Drawing.Fonts.Plex, Position = UDim2.new(0,-2,0,-2), ZIndex = 6});
                 --local slider_title_shadow = utility.create("Text", {Text = name, Parent = holder, Visible = true, Transparency = 1, Color = Color3.new(0,0,0), Size = 13, Center = false, Outline = false, Font = Drawing.Fonts.Plex, Position = UDim2.new(0,-1,0,-1), ZIndex = 5});
                 --
-                local slider_value = utility.create("Text", {Text = text, Parent = slider_frame, Visible = true, Transparency = 1, Theme = "Text", Size = 13, Center = true, Outline = true, Font = Drawing.Fonts.Plex, Position = UDim2.new(0.5,0,0.5,-6), ZIndex = 8});
+                local slider_value = utility.create("Text", {Text = text, Parent = slider_frame, Visible = true, Transparency = 1, Theme = "Text", Size = 13, Center = true, Outline = false, Font = Drawing.Fonts.Plex, Position = UDim2.new(0.5,0,0.5,-10), ZIndex = 9});
+                local slider_value2 = utility.create("Text", {Text = text, Parent = slider_frame, Visible = true, Transparency = 1, Theme = "Text", Size = 13, Center = true, Outline = false, Font = Drawing.Fonts.Plex, Position = UDim2.new(0.5,1,0.5,-10), ZIndex = 9});
+
+                local slider_valueS = utility.create("Text", {Text = text, Parent = slider_frame, Visible = true, Transparency = 1, Theme = "Text", Size = 13, Center = true, Outline = true, Font = Drawing.Fonts.Plex, Position = UDim2.new(0.5,0,0.5,-10), ZIndex = 8});
+                local slider_value2S = utility.create("Text", {Text = text, Parent = slider_frame, Visible = true, Transparency = 1, Theme = "Text", Size = 13, Center = true, Outline = true, Font = Drawing.Fonts.Plex, Position = UDim2.new(0.5,1,0.5,-10), ZIndex = 8});
                 --
                 local slider_fill = utility.create("Square", {Parent = slider_frame, Visible = true, Transparency = 1, Theme = "Accent", Size = UDim2.new(1,0,1,0), Thickness = 1, Filled = true, ZIndex = 7, Position = UDim2.new(0,0,0,0)});
                 --
@@ -1614,11 +1626,26 @@ function library:new_window(cfg)
                 local function set(value)
                     value = math.clamp(utility.round(value, float), min, max)
             
-                    slider_value.Text = text:gsub("%[value%]", string.format("%.14g", value))
+                    if cfg.style == "Percent" then
+                        value2 = math.clamp(utility.round(value, float), min, max) / 0.1
+                        slider_value.Text = text:gsub("%[value%]", string.format("%.14g", value2))
+                        slider_value2.Text = text:gsub("%[value%]", string.format("%.14g", value2))
+                        slider_valueS.Text = text:gsub("%[value%]", string.format("%.14g", value2))
+                        slider_value2S.Text = text:gsub("%[value%]", string.format("%.14g", value2))
+                    else
+                        slider_value.Text = text:gsub("%[value%]", string.format("%.14g", value))
+                        slider_value2.Text = text:gsub("%[value%]", string.format("%.14g", value))
+                        slider_valueS.Text = text:gsub("%[value%]", string.format("%.14g", value))
+                        slider_value2S.Text = text:gsub("%[value%]", string.format("%.14g", value))
+                    end
             
                     local sizeX = ((value - min) / (max - min))
                     slider_fill.Size = UDim2.new(sizeX, 0, 1, 0)
-            
+                    slider_value.Position = UDim2.new(sizeX,0,0,3)
+                    slider_value2.Position = UDim2.new(sizeX,-1,0,3)
+                    slider_valueS.Position = UDim2.new(sizeX,0,0,3)
+                    slider_value2S.Position = UDim2.new(sizeX,-1,0,3)
+
                     library.flags[flag] = value
                     callback(value)
                 end
@@ -1684,7 +1711,7 @@ function library:new_window(cfg)
                 local button_confirm = cfg.confirm or cfg.Confirm or false;
                 local callback = cfg.callback or cfg.Callback or function() end;
                 -- drawings
-                local holder = utility.create("Square", {Parent = section_content, Visible = true, Transparency = 0, Size = UDim2.new(1,0,0,15), Thickness = 1, Filled = true, ZIndex = 6});
+                local holder = utility.create("Square", {Parent = section_content, Visible = true, Transparency = 0, Size = UDim2.new(1,0,0,18), Thickness = 1, Filled = true, ZIndex = 6});
                 --
                 local button_frame = utility.create("Square", {Parent = holder, Visible = true, Transparency = 1, Theme = "Object Background", Size = UDim2.new(1,0,1,0), Thickness = 1, Filled = true, ZIndex = 7}) do
                     local outline = utility.outline(button_frame, "Section Inner Border");
@@ -1692,7 +1719,7 @@ function library:new_window(cfg)
                 end;
                 local gradient = utility.create("Image", {Data = library.gradient, Transparency = 0.5, Visible = true, Parent = button_frame, Size = UDim2.new(1,0,1,0), ZIndex = 8});
                 --
-                local button_title = utility.create("Text", {Text = button_name, Parent = button_frame, Visible = true, Transparency = 1, Theme = "Text", Size = 13, Center = true, Outline = false, Font = Drawing.Fonts.Plex, Position = UDim2.new(0.5,0,0,0), ZIndex = 8});
+                local button_title = utility.create("Text", {Text = button_name, Parent = button_frame, Visible = true, Transparency = 1, Theme = "Text", Size = 13, Center = true, Outline = false, Font = Drawing.Fonts.Plex, Position = UDim2.new(0.5,0,0,2), ZIndex = 8});
                 -- functions
                 local clicked, counting = false, false
                 utility.connect(button_frame.MouseButton1Click, function()
@@ -1818,7 +1845,7 @@ function library:new_window(cfg)
             
                 local frame = utility.create("Square",{
                     Theme = "Object Background",
-                    Size = UDim2.new(1, 0, 0, 15),
+                    Size = UDim2.new(1, 0, 0, 18),
                     Position = UDim2.new(0, 0, 1, -15),
                     Filled = true,
                     Parent = holder,
@@ -1895,7 +1922,7 @@ function library:new_window(cfg)
                     Font = Drawing.Fonts.Plex,
                     Size = 13,
                     Theme = "Text",
-                    Position = UDim2.new(0,2,0,0),
+                    Position = UDim2.new(0,2,0,2),
                     ZIndex = 8,
                     Parent = frame,
                     Outline = false,
@@ -1921,12 +1948,12 @@ function library:new_window(cfg)
                     Font = Drawing.Fonts.Plex,
                     Size = 13,
                     Color = Color3.fromRGB(245,245,245),
-                    Position = UDim2.new(1,-20,0,0),
+                    Position = UDim2.new(1,-11,0,0),
                     ZIndex = 8,
                     Parent = frame,
                     Outline = false,
                     Center = false,
-                    Text = "...",
+                    Text = "x",
                     Transparency = 0.5
                 })
             
@@ -1934,12 +1961,12 @@ function library:new_window(cfg)
                     Font = Drawing.Fonts.Plex,
                     Size = 13,
                     Color = Color3.fromRGB(245,245,245),
-                    Position = UDim2.new(1,-21,0,0),
+                    Position = UDim2.new(1,-12,0,0),
                     ZIndex = 8,
                     Parent = frame,
                     Outline = false,
                     Center = false,
-                    Text = "...",
+                    Text = "x",
                     Transparency = 0.5
                 })
             
@@ -2264,7 +2291,7 @@ function library:new_window(cfg)
                 --
                 local multi_title = utility.create("Text", {Text = name, Parent = multi_button, Visible = true, Transparency = 1, Theme = "Text", Size = 13, Center = true, Outline = false, Font = Drawing.Fonts.Plex, Position = UDim2.new(0.5,0,0,8), ZIndex = 7});
                 --
-                local multi_button_accent = utility.create("Square", {Parent = multi_button, Visible = false, Transparency = 1, Theme = "Accent", Size = UDim2.new(1,0,0,1), Position = UDim2.new(0,0,0,1), Thickness = 1, Filled = true, ZIndex = 7}) do
+                local multi_button_accent = utility.create("Square", {Parent = multi_button, Visible = false, Transparency = 1, Theme = "Accent", Size = UDim2.new(1,0,0,1), Position = UDim2.new(0,0,1,-1), Thickness = 1, Filled = true, ZIndex = 7}) do
                     table.insert(section_tbl.accents, multi_button_accent);
                 end;
                 --
