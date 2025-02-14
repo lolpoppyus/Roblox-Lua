@@ -6,6 +6,33 @@ local RunService = game:GetService("RunService")
 local GUI = Player.PlayerGui
 local VirtualInputManager = game:GetService("VirtualInputManager")
 
+local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
+
+local Window = MacLib:Window({
+	Title = "ALS Auto",
+	Subtitle = "Mainly meant for Inf.",
+	Size = UDim2.fromOffset(600, 400),
+	DragStyle = 2,
+	DisabledWindowControls = {},
+	ShowUserInfo = false,
+	Keybind = Enum.KeyCode.RightControl,
+	AcrylicBlur = true,
+})
+
+local TabGroup = Window:TabGroup()
+
+local MainGroup = TabGroup:Tab({
+    Name = "Main"
+})
+
+local AutoUnits = MainGroup:Section({
+    Side = "Left"
+})
+
+local counter = 0
+
+local counterLabel = AutoUnits:Label({Text = "Replayed: 0"},"CounterLabel")
+
 local placeUnits = {
     ["AiHoshinoEvo"] = {Placed = false, Cost = 600},
     ["Gogeta"] = {Placed = false, Cost = 3850},
@@ -67,6 +94,10 @@ GUI.ChildRemoved:Connect(function(child)
         allPlaced = false
 
         retrying = false
+
+        counter = counter + 1
+        
+        counterLabel:UpdateName("Replayed: "..counter)
     end
 end)
 
