@@ -84,7 +84,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 9.0",
+	Footer = "version: 9.1",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -451,16 +451,17 @@ function AutoPlay()
         task.spawn(function()
             while true do
                 task.wait(.1)
-
-                GameAction:FireServer(
-                    "ManaRush_Rally",
-                    CFrame.new(-255, 2, -73, 1, 0, 0, 0, 1, 0, 0, 0, 1)
-                )
-                task.wait(10)
+                for i,v in pairs(GetTowers()) do
+                    if v.Name == "AiHoshinoEvo" then
+                        GameAction:FireServer(
+                            "ManaRush_Rally",
+                            v.HumanoidRootPart.CFrame
+                        )
+                    end
+                end
+                task.wait(5)
             end
         end)
-
-
     end
 end
 
