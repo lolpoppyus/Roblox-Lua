@@ -92,7 +92,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 7.4",
+	Footer = "version: 7.6",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -595,6 +595,7 @@ function AutoPlay()
         game.Workspace.Map.ActiveOrbs.ChildAdded:Connect(function(child)
             for i,v in pairs(child:GetChildren()) do
                 if v:IsA("ProximityPrompt") then
+                    Player.Character.HumanoidRootPart.CFrame = v.Parent.CFrame + Vector3.new(0,3,0)
                     fireproximityprompt(v,1,true)
                 end
             end
