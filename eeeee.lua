@@ -83,7 +83,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 8.4",
+	Footer = "version: 8.6",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -450,6 +450,33 @@ function formatTime(seconds)
 end
 
 function AutoToggleUnits(child)
+    if child.Name == "SungMonarch" then
+        if child:WaitForChild("Owner").Value == Player then
+            Connections["SungMonarchMax"] = child:GetAttributeChangedSignal("SL_System_AvailablePoints"):Connect(function()
+                if child:GetAttribute("SL_System_Str") < child:GetAttribute("SL_System_MaxStr") then
+                    local SJWStats = ReplicatedStorage.Remotes.AbilityRemotes.SJWStats -- RemoteEvent 
+                    SJWStats:FireServer(
+                        "AddStatMax",
+                        "Strength"
+                    )
+                else
+                    local SJWStats = ReplicatedStorage.Remotes.AbilityRemotes.SJWStats -- RemoteEvent 
+                    SJWStats:FireServer(
+                        "AddStatMax",
+                        "Intelligence"
+                    )
+                end
+            end)
+
+            local args = {
+                [1] = child,
+                [2] = "System",
+                [3] = true
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("ToggleAutoUse"):FireServer(unpack(args))
+        end
+    end
     if child.Name == "AiHoshinoEvo" then
         if child:WaitForChild("Owner").Value == Player then
             Connections["AiUpgrade"] = child:WaitForChild("Upgrade").Changed:Connect(function(val)
