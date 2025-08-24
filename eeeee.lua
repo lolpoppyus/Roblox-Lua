@@ -321,8 +321,8 @@ GUI.ChildAdded:Connect(function(child)
 
         local Frame2Children = Frame2:GetChildren()
 
-        if #Frame2Children == 6 then
-            local cards = Frame2Children[6]
+        if #Frame2Children == 5 then
+            local cards = Frame2Children[5]
             local cardsChildren = cards:GetChildren()
             for i,v in pairs(cardsChildren) do
                 print(v.Name)
