@@ -92,7 +92,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 6.8",
+	Footer = "version: 6.9",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
