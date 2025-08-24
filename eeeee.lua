@@ -92,7 +92,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 6.5",
+	Footer = "version: 6.6",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -315,9 +315,9 @@ end)
 
 GUI.ChildAdded:Connect(function(child)
     if child.Name == "Prompt" then
-        local Frame1 = child.Frame
+        local Frame1 = child:WaitForChild("Frame")
 
-        local Frame2 = Frame1.Frame
+        local Frame2 = Frame1:WaitForChild("Frame")
 
         local Frame2Children = Frame2:GetChildren()
 
