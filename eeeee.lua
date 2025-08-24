@@ -92,7 +92,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 7.2",
+	Footer = "version: 7.4",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -151,115 +151,6 @@ MenuGroup:AddDivider()
 MenuGroup:AddButton("Unload", function()
 	Library:Unload()
 end)
-
---[[ OLD UI
-
-local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
-
-local Window = MacLib:Window({
-	Title = "ALS AutoFarm",
-	Subtitle = "",
-	Size = UDim2.fromOffset(600, 400),
-	DragStyle = 2,
-	DisabledWindowControls = {},
-	ShowUserInfo = false,
-	Keybind = Enum.KeyCode.RightControl,
-	AcrylicBlur = true,
-})
-
-Window:SetState(false)
-
-function CreateButtonGUI()
-
-    local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Parent = GUI
-    ScreenGui.DisplayOrder = 10
-    local UIButton = Instance.new("TextButton")
-    UIButton.Parent = ScreenGui
-    UIButton.Position = UDim2.new(0.036,0,0.061,0)
-    UIButton.Size = UDim2.new(0,60,0,60)
-    UIButton.BackgroundColor3 = Color3.fromRGB(43,43,43)
-    UIButton.Font = Enum.Font.SourceSansBold
-    UIButton.TextSize = 37
-    UIButton.TextColor3 = Color3.fromRGB(255,255,255)
-    UIButton.Text = "ALS"
-    local UICorner = Instance.new("UICorner")
-    UICorner.CornerRadius = UDim.new(0.25,0)
-    UICorner.Parent = UIButton
-
-    UIButton.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.Touch then
-            dragging = true
-            dragStart = input.Position
-            startPos = UIButton.Position
-            Window:SetState(not Window:GetState())
-        end
-    end)
-
-    UIButton.InputChanged:Connect(function(input)
-        if dragging and input.UserInputType == Enum.UserInputType.Touch then
-            local delta = input.Position - dragStart
-            UIButton.Position = UDim2.new(
-                startPos.X.Scale, startPos.X.Offset + delta.X,
-                startPos.Y.Scale, startPos.Y.Offset + delta.Y
-            )
-        end
-    end)
-
-    UIButton.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.Touch then
-            dragging = false
-        end
-    end)
-
-end
-
-CreateButtonGUI()
-
-local TabGroup = Window:TabGroup()
-
-local MainGroup = TabGroup:Tab({
-    Name = "Main"
-})
-
-local AutoUnits = MainGroup:Section({
-    Side = "Left"
-})
-
-local ReplayLabel = AutoUnits:Label({Text = "Replayed: 0"},"CounterLabel")
-
-local StopWatch = AutoUnits:Label({Text = "Stop Watch [0]"},"StopWatch")
-
-local CopyUnits = AutoUnits:Button({Name = "Set Placed Units",Callback = function()
-    table.clear(PlacableUnits)
-    for i,v in pairs(GetTowers()) do
-        if v:WaitForChild("Owner").Value == Player then
-            table.insert(PlacableUnits,{Unit = v.Name, Placed = false, Position = v.PrimaryPart.CFrame,AutoAbility = false})
-        end
-    end
-
-    if isfile("ALS/"..GetMapName():gsub("[,' ]", "").."Auto.json") then
-        Window:Dialog({
-            Title = "ALS Profile",
-            Description = "This Profile already exists. You will be overwriting this file if you Confirm.",
-            Buttons = {
-                {
-                    Name = "Confirm",
-                    Callback = function()
-                        SaveJson(GetMapName():gsub("[,' ]", "").."Auto")
-                    end,
-                },
-                {
-                    Name = "Cancel"
-                }
-            }
-        })
-        return
-    end
-    SaveJson(GetMapName():gsub("[,' ]", "").."Auto")
-end})
-
---]]
 
 -- OBJECT CONNECTIONS
 
@@ -374,7 +265,7 @@ GUI.ChildAdded:Connect(function(child)
                             SelectDamageCard(v)
                             print(p.Text)
                         end
-                        break -- stop once you found a match for this child
+                        break
                     end
                 end
             end
@@ -702,16 +593,10 @@ function AutoPlay()
             end
         end)
         game.Workspace.Map.ActiveOrbs.ChildAdded:Connect(function(child)
-            for i,v in pairs(game.Workspace.Map.Orbs:GetChildren()) do
-                    --[[local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-                    local Interact = ReplicatedStorage.Remotes.Interact
-
-                    local Model = v
-
-                    Interact:FireServer(
-                        Model
-                    )]]
+            for i,v in pairs(child:GetChildren()) do
+                if v:IsA("ProximityPrompt") then
+                    fireproximityprompt(v,1,true)
+                end
             end
         end)
     end
