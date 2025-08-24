@@ -315,7 +315,6 @@ end)
 GUI.ChildAdded:Connect(function(child)
     if child.Name == "Prompt" then
         Prompt = child
-        EnterPortal()
     end
     if child.Name == "EndGameUI" then
         if GetGamemode() ~= "InfiniteCastle" then
@@ -772,5 +771,6 @@ Challenge()
 AutoPlay()
 
 FirstJoin()
+
 
 --MainGroup:Select()
