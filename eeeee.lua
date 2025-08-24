@@ -92,7 +92,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 6.6",
+	Footer = "version: 6.7",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -325,6 +325,7 @@ GUI.ChildAdded:Connect(function(child)
             local cards = Frame2Children[4]
             local cardsChildren = cards:GetChildren()
             for i,v in pairs(cardsChildren) do
+                print(v.Name)
                 local cardDescend = v:GetDescendants()
                 for e,p in pairs(cardDescend) do
                     if p:IsA("TextLabel") then
