@@ -92,7 +92,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 7.0",
+	Footer = "version: 7.1",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -313,37 +313,68 @@ Player:WaitForChild("Cash").Changed:Connect(function(val)
     end
 end)
 
+function SelectDamageCard(obj)
+    task.spawn(function()
+        GuiService.GuiNavigationEnabled = true
+
+        GuiService.SelectedObject = obj
+
+        task.wait(0.1)
+
+        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+        task.wait(0.1)
+        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+
+        local ui = game:GetService("Players").LocalPlayer.PlayerGui.Prompt.Frame.Frame:GetChildren()
+        local child = ui[5]:WaitForChild("TextButton")
+
+        task.wait(0.1)
+        GuiService.SelectedObject = child
+
+        task.wait(0.1)
+
+        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+        task.wait(0.1)
+        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+        
+    end)
+end
+
 GUI.ChildAdded:Connect(function(child)
     if child.Name == "Prompt" then
-        local Frame1 = child:WaitForChild("Frame")
+        task.spawn(function()
+            task.wait(1)
+            
+            local ui = game:GetService("Players").LocalPlayer.PlayerGui.Prompt.Frame.Frame:GetChildren()
+            local index = 4
+            local child = ui[index]:GetChildren()
 
-        local Frame2 = Frame1:WaitForChild("Frame")
-
-        local Frame2Children = Frame2:GetChildren()
-
-        if #Frame2Children == 4 then
-            local cards = Frame2Children[4]
-            local cardsChildren = cards:GetChildren()
-            for i,v in pairs(cardsChildren) do
+            for i, v in ipairs(child) do
                 print(v.Name)
-                local cardDescend = v:GetDescendants()
-                for e,p in pairs(cardDescend) do
-                    if p:IsA("TextLabel") then
-                        if string.find(p.Text,"Damage") then
-                            if #i == 1 then
-                                SelectDamageCard(4)
-                            elseif #i == 2 then
-                                SelectDamageCard(1)
-                            elseif #i == 3 then
-                                SelectDamageCard(2)
-                            elseif #i == 4 then
-                                SelectDamageCard(3)
-                            end
+                for _, p in ipairs(v:GetDescendants()) do
+                    if p:IsA("TextLabel") and string.find(p.Text, "Damage") then
+                        if i == 1 then
+                            print("FOund 1")
+                            SelectDamageCard(v)
+                            print(p.Text)
+                        elseif i == 2 then
+                            print("FOund 2")
+                            SelectDamageCard(v)
+                            print(p.Text)
+                        elseif i == 3 then
+                            print("FOund 3")
+                            SelectDamageCard(v)
+                            print(p.Text)
+                        elseif i == 4 then
+                            print("FOund 4")
+                            SelectDamageCard(v)
+                            print(p.Text)
                         end
+                        break -- stop once you found a match for this child
                     end
                 end
             end
-        end
+        end)
         --Prompt = child
         --EnterPortal()
     end
@@ -642,17 +673,6 @@ function SendMessage(url, message)
         Headers = headers,
         Body = body
     })
-end
-
-function SelectDamageCard(card)
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-    local CardAction = ReplicatedStorage.Remotes.CardAction -- RemoteEvent 
-
-    CardAction:FireServer(
-        card
-    )
-
 end
 
 function AutoPlay()
