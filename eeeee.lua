@@ -21,7 +21,8 @@ local MapPortals = {
     ["Love Island"] = false,
     ["Infernal Volcano"] = false,
     ["Easter Castle"] = false,
-    ["Babylonia Castle"] = false
+    ["Babylonia Castle"] = false,
+    ["Zenith Arena"] = false
 }
 
 local Connections = {}
@@ -83,7 +84,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 8.7",
+	Footer = "version: 8.9",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -376,6 +377,10 @@ function SendMessage(url, message)
     })
 end
 
+function TP(obj)
+    Player.Character.HumanoidRootPart.CFrame = obj.CFrame + Vector3.new(0,3,0)
+end
+
 function AutoPlay()
     if isfile("ALS/"..GetMapName():gsub("[,' ]", "").."Auto.json") then
         LoadProfile(GetMapName():gsub("[,' ]", "").."Auto")
@@ -424,6 +429,36 @@ function AutoPlay()
                 end
             end
         end)
+    end
+    if MapPortals["Zenith Arena"] then
+        local GameAction = ReplicatedStorage.Remotes.GameAction -- RemoteEvent 
+
+        Connections["ZoneHitboxChanged"] = workspace.EffectZones.ZoneHitbox:GetPropertyChangedSignal("CFrame"):Connect(function()
+            TP(workspace.EffectZones.ZoneHitbox)
+        end)
+        Connections["EffectsAdded"] = workspace.Effects.ChildAdded:Connect(function()
+            for i,v in pairs(GetTowers()) do
+                if v.Name == "AiHoshinoEvo" then
+                    GameAction:FireServer(
+                        "ManaRush_Defend",
+                        v.HumanoidRootPart.CFrame
+                    )
+                end
+            end
+        end)
+        task.spawn(function()
+            while true do
+                task.wait(.1)
+
+                GameAction:FireServer(
+                    "ManaRush_Rally",
+                    CFrame.new(-255, 2, -73, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+                )
+                task.wait(5)
+            end
+        end)
+
+
     end
 end
 
@@ -682,7 +717,7 @@ function RunAllConnections()
                 for i, v in ipairs(child) do
                     print(v.Name)
                     for _, p in ipairs(v:GetDescendants()) do
-                        if p:IsA("TextLabel") and string.find(p.Text, "Damage") then
+                        if p:IsA("TextLabel") and string.find(p.Text:lower(), "damage") then
 
                             if string.find(p.Text,"-") then continue end
 
@@ -789,6 +824,11 @@ function RunAllConnections()
                         end
                     end
                 end
+            end
+        end
+        if MapPortals["Zenith Arena"] then
+            if child.Name == "Shadow Frieran" then
+                
             end
         end
     end)
