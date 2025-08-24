@@ -24,6 +24,8 @@ local MapPortals = {
     ["Babylonia Castle"] = false
 }
 
+local Connections = {}
+
 function GetMapName()
     return game.Workspace.Map.MapName.Value
 end
@@ -57,9 +59,6 @@ local TowerLimit = false;
 
 local PlacableUnits = {}
 
-local dragging = false
-local dragStart, startPos
-
 local ReplayCounter = 0
 
 local Prompt = nil
@@ -84,7 +83,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 7.9",
+	Footer = "version: 8.4",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -146,206 +145,6 @@ end)
 
 -- OBJECT CONNECTIONS
 
-Towers.ChildAdded:Connect(function(child)
-    if child:WaitForChild("Owner").Value == Player then
-        for i,v in pairs(PlacableUnits) do
-            if v.Unit == child.Name then
-                v.Placed = true
-                AutoUpgrade(child)
-            end
-        end
-        AutoToggleUnits(child)
-    end
-end)
-
-Towers.ChildRemoved:Connect(function(child)
-    if MapPortals["Giant's Dungeon"] then
-        if child.Owner.Value == Player then
-            local UnitInfo = require(TowerInfo:FindFirstChild(child.Name))
-            for i,v in pairs(PlacableUnits) do
-                if v.Unit == child.Name then
-                    v.Placed = false
-                    while not v.Placed do
-                        if CurrentCash() >= UnitInfo[0].Cost then
-                            PlaceUnit(child,v.Position)
-                        end
-                        task.wait(1)
-                    end
-                end
-            end
-        end
-    end
-end)
-
-Player:WaitForChild("Cash").Changed:Connect(function(val)
-    if PlacableUnits ~= nil then
-        for i,v in ipairs(PlacableUnits) do
-            if TowerLimit then
-                if v.Order >= 6 then
-                    return
-                end
-            end
-            local UnitInfo = require(TowerInfo:FindFirstChild(v.Unit))
-            if v.Placed == false then
-                if val >= UnitInfo[0].Cost then
-                    PlaceUnit(v.Unit,v.Position)
-                end
-                return
-            end
-        end
-    end
-end)
-
-function SelectDamageCard(obj)
-    task.spawn(function()
-        GuiService.GuiNavigationEnabled = true
-
-        GuiService.SelectedObject = obj
-
-        task.wait(0.1)
-
-        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-        task.wait(0.1)
-        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-
-        local ui = game:GetService("Players").LocalPlayer.PlayerGui.Prompt.Frame.Frame:GetChildren()
-        local child = ui[5]:WaitForChild("TextButton")
-
-        task.wait(0.1)
-        GuiService.SelectedObject = child
-
-        task.wait(0.1)
-
-        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-        task.wait(0.1)
-        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-        task.wait(0.1)
-
-        GuiService.SelectedObject = nil
-
-        GuiService.GuiNavigationEnabled = false
-    end)
-end
-
-GUI.ChildAdded:Connect(function(child)
-    if child.Name == "Prompt" then
-        task.spawn(function()
-            task.wait(1)
-            
-            local ui = game:GetService("Players").LocalPlayer.PlayerGui.Prompt.Frame.Frame:GetChildren()
-            local index = 4
-            local child = ui[index]:GetChildren()
-
-            for i, v in ipairs(child) do
-                print(v.Name)
-                for _, p in ipairs(v:GetDescendants()) do
-                    if p:IsA("TextLabel") and string.find(p.Text, "Damage") then
-                        if i == 1 then
-                            print("FOund 1")
-                            SelectDamageCard(v)
-                            print(p.Text)
-                        elseif i == 2 then
-                            print("FOund 2")
-                            SelectDamageCard(v)
-                            print(p.Text)
-                        elseif i == 3 then
-                            print("FOund 3")
-                            SelectDamageCard(v)
-                            print(p.Text)
-                        elseif i == 4 then
-                            print("FOund 4")
-                            SelectDamageCard(v)
-                            print(p.Text)
-                        end
-                        break
-                    end
-                end
-            end
-        end)
-        --Prompt = child
-        --EnterPortal()
-    end
-    if child.Name == "EndGameUI" then
-        if GetGamemode() ~= "InfiniteCastle" then
-            for i,v in pairs(PlacableUnits) do
-                PlacableUnits[i].Placed = false
-            end
-        
-            SendRewardsWebhook(child)
-    
-            ClickRetry()
-        else
-            SendRewardsWebhook(child)
-
-            ClickNext()
-        end
-    end
-end)
-
-GUI.ChildRemoved:Connect(function(child)
-    if child.Name == "Prompt" then
-        if MapPortals["Candy Island"] or MapPortals["Love Island"] then
-            ClickRetry()
-        end
-    end
-    if child.Name == "EndGameUI" then
-        if GetGamemode() ~= "InfiniteCastle" then
-            for i,v in pairs(PlacableUnits) do
-                PlacableUnits[i].Placed = false
-            end
-    
-            ReplayCounter = ReplayCounter + 1
-            
-            --ReplayLabel:UpdateName("Replayed: "..ReplayCounter)
-    
-            ReplayLabel:SetText("Replayed: "..ReplayCounter)
-    
-    
-            if ReplayCounter == 50 then
-                if not MapPortals["Easter Castle"] then
-                    Remotes.RestartMatch:FireServer()
-                    SendMessage(getgenv.webhookUrl,"```50 Matches Restarted At "..formatTime(elapsed).."```")
-                end
-            end
-        else
-            SendRewardsWebhook(child)
-
-            ClickNext()
-        end
-    end
-end)
-
-Enemies.ChildAdded:Connect(function(child)
-    if MapPortals["Easter Castle"] then
-        if Wave.Value >= 35 then
-            if child.Name == "Boss" then
-                for i,v in pairs(GetTowers()) do
-                    if v.Name == "GojoEvo2EZA" then
-                        if v.Owner.Value == Player then
-                            local args = {
-                                [1] = v,
-                                [2] = 2;
-                            }
-                            
-                            Remotes:WaitForChild("Ability"):InvokeServer(unpack(args))
-                        end
-                    end
-                    if v.Name == "MadokaEvo" then
-                        if v.Owner.Value == Player then
-                            local args = {
-                                [1] = v,
-                                [2] = 1;
-                            }
-                            
-                            Remotes:WaitForChild("Ability"):InvokeServer(unpack(args))
-                        end
-                    end
-                end
-            end
-        end
-    end
-end)
-
 -- FUNCTIONS
 
 function EnterPortal()
@@ -403,21 +202,36 @@ function Click()
 end
 
 function ClickRetry()
-    task.wait(3)
-    for i = 1,50 do
+    task.spawn(function()
+        task.wait(3)
         if GUI:FindFirstChild("EndGameUI") then
+            GuiService.GuiNavigationEnabled = true
+
             local button = GUI:WaitForChild("EndGameUI"):WaitForChild("BG"):WaitForChild("Buttons"):WaitForChild("Retry")
             button.Visible = true
-    
-            VirtualInputManager:SendMouseButtonEvent(button.AbsolutePosition.X + (button.AbsoluteSize.X / 2) + 50,button.AbsolutePosition.Y + (button.AbsoluteSize.Y / 2)+ 50,0,true,game, 0)
-    
-            task.wait(0.1)
-    
-            VirtualInputManager:SendMouseButtonEvent(button.AbsolutePosition.X + (button.AbsoluteSize.X / 2) + 50,button.AbsolutePosition.Y + (button.AbsoluteSize.Y / 2)+ 50,0,false,game, 0)
-        end
-    end
-end
 
+            button.MouseButton1Click:Connect(function()
+                if MapPortals[GetMapName()] == true then
+                    return;
+                end
+                RunAllConnections()
+            end)
+
+            GuiService.SelectedObject = button
+
+            task.wait(0.1)
+
+            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+            task.wait(0.1)
+            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+
+            task.wait(0.1)
+
+            GuiService.SelectedObject = nil
+            GuiService.GuiNavigationEnabled = false
+        end
+    end)
+end
 
 function ClickNext()
     task.wait(3)
@@ -567,7 +381,7 @@ function AutoPlay()
         LoadProfile(GetMapName():gsub("[,' ]", "").."Auto")
     end
     if MapPortals["Infernal Volcano"] then
-        game.Workspace.Map.Volcanoes.ChildAdded:Connect(function(child)
+        Connections["VolcanoesAdded"] = game.Workspace.Map.Volcanoes.ChildAdded:Connect(function(child)
             for i,v in pairs(child:GetChildren()) do
                 if v:IsA("ProximityPrompt") then
                     local args = {
@@ -579,17 +393,34 @@ function AutoPlay()
         end)
     end
     if MapPortals["Babylonia Castle"] then
-        game.Workspace.EffectZones.ChildAdded:Connect(function(child)
+       Connections["EffectZonesAdded"] =  game.Workspace.EffectZones.ChildAdded:Connect(function(child)
             if child.Name == "ZoneHitbox" then
                 Player.Character.HumanoidRootPart.CFrame = child.CFrame + Vector3.new(0,3,0)
             end
         end)
-        game.Workspace.Map.ActiveOrbs.ChildAdded:Connect(function(child)
-            for i,v in pairs(child:GetDescendants()) do
-                if v:IsA("ProximityPrompt") then
-                    task.wait(0.1)
-                    Player.Character.HumanoidRootPart.CFrame = v.Parent.CFrame + Vector3.new(0,3,0)
-                    fireproximityprompt(v,1,true)
+        --[[
+        Connections["ActiveOrbsAdded"] = game.Workspace.Map.ActiveOrbs.ChildAdded:Connect(function()
+            task.spawn(function()
+                local connections = workspace.Map.ActiveOrbs:GetDescendants()
+                for i,v in pairs(connections) do
+                    if v:IsA("ProximityPrompt") then
+                        Player.Character.HumanoidRootPart.CFrame = v.Parent.CFrame + Vector3.new(0,3,0)
+                        fireproximityprompt(v,1,true)
+                        task.wait(1)
+                    end
+                end
+            end)
+        end)]]
+        task.spawn(function()
+            while true do
+                task.wait(0.1)
+                local connections = workspace.Map.ActiveOrbs:GetDescendants()
+                for i,v in pairs(connections) do
+                    if v:IsA("ProximityPrompt") then
+                        Player.Character.HumanoidRootPart.CFrame = v.Parent.CFrame + Vector3.new(0,3,0)
+                        fireproximityprompt(v,1,true)
+                        task.wait(1)
+                    end
                 end
             end
         end)
@@ -621,7 +452,7 @@ end
 function AutoToggleUnits(child)
     if child.Name == "AiHoshinoEvo" then
         if child:WaitForChild("Owner").Value == Player then
-            child:WaitForChild("Upgrade").Changed:Connect(function(val)
+            Connections["AiUpgrade"] = child:WaitForChild("Upgrade").Changed:Connect(function(val)
                 if val >= 6 then
                     local args = {
                         [1] = child,
@@ -636,7 +467,7 @@ function AutoToggleUnits(child)
     end
     if child.Name == "Bulma" then
         if child:WaitForChild("Owner").Value == Player then
-            child:WaitForChild("Upgrade").Changed:Connect(function(val)
+            Connections["BulmaUpgrade"] = child:WaitForChild("Upgrade").Changed:Connect(function(val)
                 if val >= 6 then
                     local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -664,7 +495,7 @@ function AutoToggleUnits(child)
     end
     if child.Name == "KurumiEvo" then
         if child:WaitForChild("Owner").Value == Player then
-            child:WaitForChild("Upgrade").Changed:Connect(function(val)
+            Connections["KurumiUpgrade"] = child:WaitForChild("Upgrade").Changed:Connect(function(val)
                 if val >= 8 then
                     local args = {
                         [1] = child,
@@ -686,7 +517,7 @@ function AutoToggleUnits(child)
     end
     if child.Name == "GojoEvo2EZA" then
         if child:WaitForChild("Owner").Value == Player then
-            child:WaitForChild("Upgrade").Changed:Connect(function(val)
+            Connections["GojoUpgrade"] = child:WaitForChild("Upgrade").Changed:Connect(function(val)
                 if val >= 3 then
                     local args = {
                         [1] = child,
@@ -701,7 +532,7 @@ function AutoToggleUnits(child)
     end
     if child.Name == "CosmicGarou" then
         if child:WaitForChild("Owner").Value == Player then
-            child:WaitForChild("Upgrade").Changed:Connect(function(val)
+            Connections["GarouUpgrade"] = child:WaitForChild("Upgrade").Changed:Connect(function(val)
                 if val >= 2 then
                     local args = {
                         [1] = child,
@@ -730,18 +561,229 @@ function Challenge()
     end
 end
 
-RunService.RenderStepped:Connect(function(deltaTime)
-    elapsed = elapsed + deltaTime
-    --StopWatch:UpdateName("Stopwatch ["..formatTime(elapsed).."]")
+function SelectDamageCard(obj)
+    task.spawn(function()
+        GuiService.GuiNavigationEnabled = true
 
-    StopWatch:SetText("Stopwatch ["..formatTime(elapsed).."]")
-end)
+        GuiService.SelectedObject = obj
+
+        task.wait(0.1)
+
+        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+        task.wait(0.1)
+        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+
+        local ui = game:GetService("Players").LocalPlayer.PlayerGui.Prompt.Frame.Frame:GetChildren()
+        local child = ui[5]:WaitForChild("TextButton")
+
+        task.wait(0.1)
+        GuiService.SelectedObject = child
+
+        task.wait(0.1)
+
+        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+        task.wait(0.1)
+        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+        task.wait(0.1)
+
+        GuiService.SelectedObject = nil
+
+        GuiService.GuiNavigationEnabled = false
+    end)
+end
+
+function RunAllConnections()
+    Connections["TowersAdded"] = Towers.ChildAdded:Connect(function(child)
+        if child:WaitForChild("Owner").Value == Player then
+            for i,v in pairs(PlacableUnits) do
+                if v.Unit == child.Name then
+                    v.Placed = true
+                    AutoUpgrade(child)
+                end
+            end
+            AutoToggleUnits(child)
+        end
+    end)
+
+    Connections["TowersRemoved"] = Towers.ChildRemoved:Connect(function(child)
+        if MapPortals["Giant's Dungeon"] then
+            if child.Owner.Value == Player then
+                local UnitInfo = require(TowerInfo:FindFirstChild(child.Name))
+                for i,v in pairs(PlacableUnits) do
+                    if v.Unit == child.Name then
+                        v.Placed = false
+                        while not v.Placed do
+                            if CurrentCash() >= UnitInfo[0].Cost then
+                                PlaceUnit(child,v.Position)
+                            end
+                            task.wait(1)
+                        end
+                    end
+                end
+            end
+        end
+    end)
+
+    Connections["Cash"] = Player:WaitForChild("Cash").Changed:Connect(function(val)
+        if PlacableUnits ~= nil then
+            for i,v in ipairs(PlacableUnits) do
+                if TowerLimit then
+                    if v.Order >= 6 then
+                        return
+                    end
+                end
+                local UnitInfo = require(TowerInfo:FindFirstChild(v.Unit))
+                if v.Placed == false then
+                    if val >= UnitInfo[0].Cost then
+                        PlaceUnit(v.Unit,v.Position)
+                    end
+                    return
+                end
+            end
+        end
+    end)
+
+    Connections["GUIAdded"] = GUI.ChildAdded:Connect(function(child)
+        if child.Name == "Prompt" then
+            task.spawn(function()
+                task.wait(1)
+                
+                local ui = game:GetService("Players").LocalPlayer.PlayerGui.Prompt.Frame.Frame:GetChildren()
+                local index = 4
+                local child = ui[index]:GetChildren()
+
+                for i, v in ipairs(child) do
+                    print(v.Name)
+                    for _, p in ipairs(v:GetDescendants()) do
+                        if p:IsA("TextLabel") and string.find(p.Text, "Damage") then
+                            if i == 1 then
+                                print("FOund 1")
+                                SelectDamageCard(v)
+                                print(p.Text)
+                            elseif i == 2 then
+                                print("FOund 2")
+                                SelectDamageCard(v)
+                                print(p.Text)
+                            elseif i == 3 then
+                                print("FOund 3")
+                                SelectDamageCard(v)
+                                print(p.Text)
+                            elseif i == 4 then
+                                print("FOund 4")
+                                SelectDamageCard(v)
+                                print(p.Text)
+                            end
+                            break
+                        end
+                    end
+                end
+            end)
+            --Prompt = child
+            --EnterPortal()
+        end
+        if child.Name == "EndGameUI" then
+            EndAllConnections()
+            if GetGamemode() ~= "InfiniteCastle" then
+                for i,v in pairs(PlacableUnits) do
+                    PlacableUnits[i].Placed = false
+                end
+            
+                SendRewardsWebhook(child)
+        
+                ClickRetry()
+            else
+                SendRewardsWebhook(child)
+
+                ClickNext()
+            end
+        end
+    end)
+
+    Connections["GUIRemoved"] = GUI.ChildRemoved:Connect(function(child)
+        if child.Name == "Prompt" then
+            if MapPortals["Candy Island"] or MapPortals["Love Island"] then
+                ClickRetry()
+            end
+        end
+        if child.Name == "EndGameUI" then
+            if GetGamemode() ~= "InfiniteCastle" then
+                for i,v in pairs(PlacableUnits) do
+                    PlacableUnits[i].Placed = false
+                end
+        
+                ReplayCounter = ReplayCounter + 1
+                
+                --ReplayLabel:UpdateName("Replayed: "..ReplayCounter)
+        
+                ReplayLabel:SetText("Replayed: "..ReplayCounter)
+        
+        
+                if ReplayCounter == 50 then
+                    if not MapPortals["Easter Castle"] then
+                        Remotes.RestartMatch:FireServer()
+                        SendMessage(getgenv.webhookUrl,"```50 Matches Restarted At "..formatTime(elapsed).."```")
+                    end
+                end
+            else
+                SendRewardsWebhook(child)
+
+                ClickNext()
+            end
+        end
+    end)
+
+    Connections["EnemiesAdded"] = Enemies.ChildAdded:Connect(function(child)
+        if MapPortals["Easter Castle"] then
+            if Wave.Value >= 35 then
+                if child.Name == "Boss" then
+                    for i,v in pairs(GetTowers()) do
+                        if v.Name == "GojoEvo2EZA" then
+                            if v.Owner.Value == Player then
+                                local args = {
+                                    [1] = v,
+                                    [2] = 2;
+                                }
+                                
+                                Remotes:WaitForChild("Ability"):InvokeServer(unpack(args))
+                            end
+                        end
+                        if v.Name == "MadokaEvo" then
+                            if v.Owner.Value == Player then
+                                local args = {
+                                    [1] = v,
+                                    [2] = 1;
+                                }
+                                
+                                Remotes:WaitForChild("Ability"):InvokeServer(unpack(args))
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end)
+
+    Connections["RunService"] = RunService.RenderStepped:Connect(function(deltaTime)
+        elapsed = elapsed + deltaTime
+        --StopWatch:UpdateName("Stopwatch ["..formatTime(elapsed).."]")
+
+        StopWatch:SetText("Stopwatch ["..formatTime(elapsed).."]")
+    end)
+
+    AutoPlay()
+end
+
+function EndAllConnections()
+    for i,v in pairs(Connections) do
+        v:Disconnect()
+    end
+end
+
+RunAllConnections()
 
 -- ACTIVE FUNCTIONS
 
 Challenge()
-
-AutoPlay()
 
 FirstJoin()
 
