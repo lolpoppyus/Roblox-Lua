@@ -92,7 +92,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 7.1",
+	Footer = "version: 7.2",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -336,7 +336,11 @@ function SelectDamageCard(obj)
         VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
         task.wait(0.1)
         VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-        
+        task.wait(0.1)
+
+        GuiService.SelectedObject = nil
+
+        GuiService.GuiNavigationEnabled = false
     end)
 end
 
@@ -699,7 +703,7 @@ function AutoPlay()
         end)
         game.Workspace.Map.ActiveOrbs.ChildAdded:Connect(function(child)
             for i,v in pairs(game.Workspace.Map.Orbs:GetChildren()) do
-                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+                    --[[local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
                     local Interact = ReplicatedStorage.Remotes.Interact
 
@@ -707,7 +711,7 @@ function AutoPlay()
 
                     Interact:FireServer(
                         Model
-                    )
+                    )]]
             end
         end)
     end
