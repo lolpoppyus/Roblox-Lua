@@ -83,7 +83,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 8.6",
+	Footer = "version: 8.7",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -683,6 +683,9 @@ function RunAllConnections()
                     print(v.Name)
                     for _, p in ipairs(v:GetDescendants()) do
                         if p:IsA("TextLabel") and string.find(p.Text, "Damage") then
+
+                            if string.find(p.Text,"-") then continue end
+
                             if i == 1 then
                                 print("FOund 1")
                                 SelectDamageCard(v)
