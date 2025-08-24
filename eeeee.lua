@@ -28,7 +28,8 @@ local MapPortals = {
     ["Candy Island"] = false,
     ["Love Island"] = false,
     ["Infernal Volcano"] = false,
-    ["Easter Castle"] = false
+    ["Easter Castle"] = false,
+    ["Babylonia Castle"] = false
 }
 
 function GetMapName()
@@ -91,7 +92,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 6.3",
+	Footer = "version: 6.5",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -314,7 +315,36 @@ end)
 
 GUI.ChildAdded:Connect(function(child)
     if child.Name == "Prompt" then
-        Prompt = child
+        local Frame1 = child.Frame
+
+        local Frame2 = Frame1.Frame
+
+        local Frame2Children = Frame2:GetChildren()
+
+        if #Frame2Children == 4 then
+            local cards = Frame2Children[4]
+            local cardsChildren = cards:GetChildren()
+            for i,v in pairs(cardsChildren) do
+                local cardDescend = v:GetDescendants()
+                for e,p in pairs(cardDescend) do
+                    if p:IsA("TextLabel") then
+                        if string.find(p.Text,"Damage") then
+                            if #i == 1 then
+                                SelectDamageCard(4)
+                            elseif #i == 2 then
+                                SelectDamageCard(1)
+                            elseif #i == 3 then
+                                SelectDamageCard(2)
+                            elseif #i == 4 then
+                                SelectDamageCard(3)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+        --Prompt = child
+        --EnterPortal()
     end
     if child.Name == "EndGameUI" then
         if GetGamemode() ~= "InfiniteCastle" then
@@ -613,6 +643,17 @@ function SendMessage(url, message)
     })
 end
 
+function SelectDamageCard(card)
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+    local CardAction = ReplicatedStorage.Remotes.CardAction -- RemoteEvent 
+
+    CardAction:FireServer(
+        card
+    )
+
+end
+
 function AutoPlay()
     if isfile("ALS/"..GetMapName():gsub("[,' ]", "").."Auto.json") then
         LoadProfile(GetMapName():gsub("[,' ]", "").."Auto")
@@ -626,6 +667,26 @@ function AutoPlay()
                     }
                     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("VolcanoRemote"):FireServer(unpack(args))
                 end
+            end
+        end)
+    end
+    if MapPortals["Babylonia Castle"] then
+        game.Workspace.EffectZones.ChildAdded:Connect(function(child)
+            if child.Name == "ZoneHitbox" then
+                Player.Character.HumanoidRootPart.CFrame = child.CFrame + Vector3.new(0,3,0)
+            end
+        end)
+        game.Workspace.Map.ActiveOrbs.ChildAdded:Connect(function(child)
+            for i,v in pairs(game.Workspace.Map.Orbs:GetChildren()) do
+                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+                    local Interact = ReplicatedStorage.Remotes.Interact
+
+                    local Model = v
+
+                    Interact:FireServer(
+                        Model
+                    )
             end
         end)
     end
@@ -660,11 +721,39 @@ function AutoToggleUnits(child)
                 if val >= 6 then
                     local args = {
                         [1] = child,
-                        [2] = 1,
+                        [2] = "Concert",
                         [3] = true
                     }
                     
                     game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("ToggleAutoUse"):FireServer(unpack(args))
+                end
+            end)
+        end
+    end
+    if child.Name == "Bulma" then
+        if child:WaitForChild("Owner").Value == Player then
+            child:WaitForChild("Upgrade").Changed:Connect(function(val)
+                if val >= 6 then
+                    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+                    local Ability = ReplicatedStorage.Remotes.Ability
+
+                    local Bulma = child
+
+                    Ability:InvokeServer(
+                        Bulma,
+                        "Wish: Power"
+                    )
+
+                    local ToggleAutoUse = ReplicatedStorage.Remotes.ToggleAutoUse
+
+                    ToggleAutoUse:FireServer(
+                        Bulma,
+                        "Summon Wish Dragon",
+                        false
+                    )
+
+
                 end
             end)
         end
@@ -675,7 +764,7 @@ function AutoToggleUnits(child)
                 if val >= 8 then
                     local args = {
                         [1] = child,
-                        [2] = 1
+                        [2] = "Zaphkol"
                     }
                     
                     game:GetService("ReplicatedStorage").Remotes.Ability:InvokeServer(unpack(args))
@@ -697,7 +786,7 @@ function AutoToggleUnits(child)
                 if val >= 3 then
                     local args = {
                         [1] = child,
-                        [2] = 1,
+                        [2] = "Unlimited Void",
                         [3] = true
                     }
                     
@@ -729,26 +818,6 @@ function AutoToggleUnits(child)
             end)
         end
     end
-    if child.Name == "GodlyBeru" then
-        if child:WaitForChild("Owner").Value == Player then
-            AutoUpgrade(child)
-        end
-    end
-    if child.Name == "GodlyBellion" then
-        if child:WaitForChild("Owner").Value == Player then
-            AutoUpgrade(child)
-        end
-    end
-    if child.Name == "GodlyIgris" then
-        if child:WaitForChild("Owner").Value == Player then
-            AutoUpgrade(child)
-        end
-    end
-    if child.Name == "GodlyTusk" then
-        if child:WaitForChild("Owner").Value == Player then
-            AutoUpgrade(child)
-        end
-    end
 end
 
 function Challenge()
@@ -771,6 +840,5 @@ Challenge()
 AutoPlay()
 
 FirstJoin()
-
 
 --MainGroup:Select()
