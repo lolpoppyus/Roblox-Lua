@@ -92,7 +92,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 6.9",
+	Footer = "version: 7.0",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -321,8 +321,8 @@ GUI.ChildAdded:Connect(function(child)
 
         local Frame2Children = Frame2:GetChildren()
 
-        if #Frame2Children == 5 then
-            local cards = Frame2Children[5]
+        if #Frame2Children == 4 then
+            local cards = Frame2Children[4]
             local cardsChildren = cards:GetChildren()
             for i,v in pairs(cardsChildren) do
                 print(v.Name)
