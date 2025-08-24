@@ -84,7 +84,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 8.9",
+	Footer = "version: 9.0",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -433,8 +433,10 @@ function AutoPlay()
     if MapPortals["Zenith Arena"] then
         local GameAction = ReplicatedStorage.Remotes.GameAction -- RemoteEvent 
 
-        Connections["ZoneHitboxChanged"] = workspace.EffectZones.ZoneHitbox:GetPropertyChangedSignal("CFrame"):Connect(function()
-            TP(workspace.EffectZones.ZoneHitbox)
+        Connections["ZoneHitboxChanged"] = workspace.EffectZones.ChildAdded:Connect(function(child)
+            if child.Name == "ZoneHitbox" then
+                TP(child)
+            end
         end)
         Connections["EffectsAdded"] = workspace.Effects.ChildAdded:Connect(function()
             for i,v in pairs(GetTowers()) do
@@ -454,7 +456,7 @@ function AutoPlay()
                     "ManaRush_Rally",
                     CFrame.new(-255, 2, -73, 1, 0, 0, 0, 1, 0, 0, 0, 1)
                 )
-                task.wait(5)
+                task.wait(10)
             end
         end)
 
