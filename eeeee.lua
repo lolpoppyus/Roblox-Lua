@@ -403,19 +403,6 @@ function AutoPlay()
                 Player.Character.HumanoidRootPart.CFrame = child.CFrame + Vector3.new(0,3,0)
             end
         end)
-        --[[
-        Connections["ActiveOrbsAdded"] = game.Workspace.Map.ActiveOrbs.ChildAdded:Connect(function()
-            task.spawn(function()
-                local connections = workspace.Map.ActiveOrbs:GetDescendants()
-                for i,v in pairs(connections) do
-                    if v:IsA("ProximityPrompt") then
-                        Player.Character.HumanoidRootPart.CFrame = v.Parent.CFrame + Vector3.new(0,3,0)
-                        fireproximityprompt(v,1,true)
-                        task.wait(1)
-                    end
-                end
-            end)
-        end)]]
         task.spawn(function()
             while true do
                 task.wait(0.1)
@@ -723,7 +710,8 @@ function RunAllConnections()
                         if p:IsA("TextLabel") and string.find(p.Text:lower(), "damage") then
 
                             if string.find(p.Text,"-") then continue end
-
+                            SelectDamageCard(v)
+                            --[[
                             if i == 1 then
                                 print("FOund 1")
                                 SelectDamageCard(v)
@@ -740,7 +728,7 @@ function RunAllConnections()
                                 print("FOund 4")
                                 SelectDamageCard(v)
                                 print(p.Text)
-                            end
+                            end]]
                             break
                         end
                     end
