@@ -84,7 +84,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 9.1",
+	Footer = "version: 9.2",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -213,7 +213,9 @@ function ClickRetry()
 
             button.MouseButton1Click:Connect(function()
                 if MapPortals[GetMapName()] == true then
-                    return;
+                    if game:GetService("ReplicatedStorage").Gamemode.Value ~= "Survival" then
+                        return;
+                    end
                 end
                 RunAllConnections()
             end)
