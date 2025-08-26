@@ -84,7 +84,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 9.3",
+	Footer = "version: 9.4",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -206,7 +206,7 @@ function ClickRetry()
     task.spawn(function()
         task.wait(1)
         if GUI:FindFirstChild("EndGameUI") then
-            while GUI.Enabled == false do
+            while GUI:FindFirstChild("EndGameUI").Enabled == false do
                 Click()
                 task.wait(1)
             end
