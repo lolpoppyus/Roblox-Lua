@@ -84,7 +84,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 9.4",
+	Footer = "version: 9.5",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -216,7 +216,7 @@ function ClickRetry()
             local button = GUI:WaitForChild("EndGameUI"):WaitForChild("BG"):WaitForChild("Buttons"):WaitForChild("Retry")
             button.Visible = true
 
-            button.MouseButton1Click:Connect(function()
+            local connectedButton = button.MouseButton1Click:Connect(function()
                 if MapPortals[GetMapName()] == true then
                     if ReplicatedStorage.Gamemode.Value ~= "Survival" then
                         return;
@@ -237,6 +237,8 @@ function ClickRetry()
 
             GuiService.SelectedObject = nil
             GuiService.GuiNavigationEnabled = false
+
+            connectedButton:Disconnect()
         end
     end)
 end
@@ -704,43 +706,52 @@ function RunAllConnections()
 
     Connections["GUIAdded"] = GUI.ChildAdded:Connect(function(child)
         if child.Name == "Prompt" then
-            task.spawn(function()
-                task.wait(1)
-                
-                local ui = game:GetService("Players").LocalPlayer.PlayerGui.Prompt.Frame.Frame:GetChildren()
-                local index = 4
-                local child = ui[index]:GetChildren()
+            if ReplicatedStorage.Gamemode.Value == "BossRush" then
+                task.spawn(function()
+                    task.wait(1)
+                    
+                    local ui = game:GetService("Players").LocalPlayer.PlayerGui.Prompt.Frame.Frame:GetChildren()
+                    local index = 4
+                    local child = ui[index]:GetChildren()
 
-                for i, v in ipairs(child) do
-                    print(v.Name)
-                    for _, p in ipairs(v:GetDescendants()) do
-                        if p:IsA("TextLabel") and string.find(p.Text:lower(), "damage") then
+                    for i, v in ipairs(child) do
+                        print(v.Name)
+                        for _, p in ipairs(v:GetDescendants()) do
+                            if p:IsA("TextLabel") and string.find(p.Text:lower(), "damage") then
 
-                            if string.find(p.Text,"-") then continue end
-                            SelectDamageCard(v)
-                            --[[
-                            if i == 1 then
-                                print("FOund 1")
+                                if string.find(p.Text,"-") then continue end
                                 SelectDamageCard(v)
-                                print(p.Text)
-                            elseif i == 2 then
-                                print("FOund 2")
-                                SelectDamageCard(v)
-                                print(p.Text)
-                            elseif i == 3 then
-                                print("FOund 3")
-                                SelectDamageCard(v)
-                                print(p.Text)
-                            elseif i == 4 then
-                                print("FOund 4")
-                                SelectDamageCard(v)
-                                print(p.Text)
-                            end]]
-                            break
+                                --[[
+                                if i == 1 then
+                                    print("FOund 1")
+                                    SelectDamageCard(v)
+                                    print(p.Text)
+                                elseif i == 2 then
+                                    print("FOund 2")
+                                    SelectDamageCard(v)
+                                    print(p.Text)
+                                elseif i == 3 then
+                                    print("FOund 3")
+                                    SelectDamageCard(v)
+                                    print(p.Text)
+                                elseif i == 4 then
+                                    print("FOund 4")
+                                    SelectDamageCard(v)
+                                    print(p.Text)
+                                end]]
+                                break
+                            end
                         end
                     end
-                end
-            end)
+                end)
+            else
+                task.spawn(function()
+                    while child do
+                        Click()
+                        task.wait(1)
+                    end
+                end)
+            end
             --Prompt = child
             --EnterPortal()
         end
