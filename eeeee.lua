@@ -84,7 +84,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 9.2",
+	Footer = "version: 9.3",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -204,8 +204,13 @@ end
 
 function ClickRetry()
     task.spawn(function()
-        task.wait(3)
+        task.wait(1)
         if GUI:FindFirstChild("EndGameUI") then
+            while GUI.Enabled == false do
+                Click()
+                task.wait(1)
+            end
+
             GuiService.GuiNavigationEnabled = true
 
             local button = GUI:WaitForChild("EndGameUI"):WaitForChild("BG"):WaitForChild("Buttons"):WaitForChild("Retry")
@@ -213,7 +218,7 @@ function ClickRetry()
 
             button.MouseButton1Click:Connect(function()
                 if MapPortals[GetMapName()] == true then
-                    if game:GetService("ReplicatedStorage").Gamemode.Value ~= "Survival" then
+                    if ReplicatedStorage.Gamemode.Value ~= "Survival" then
                         return;
                     end
                 end
