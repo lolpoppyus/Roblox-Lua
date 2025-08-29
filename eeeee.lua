@@ -84,7 +84,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 9.5",
+	Footer = "version: 9.6",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -526,30 +526,37 @@ function AutoToggleUnits(child)
             end)
         end
     end
+    if child.Name == "Mugetsu" then
+        if child:WaitForChild("Owner").Value == Player then
+            local ToggleAutoUse = ReplicatedStorage.Remotes.ToggleAutoUse
+
+            ToggleAutoUse:FireServer(
+                child,
+                "Kai Release",
+                true
+            )
+
+        end
+    end
     if child.Name == "Bulma" then
         if child:WaitForChild("Owner").Value == Player then
-            Connections["BulmaUpgrade"] = child:WaitForChild("Upgrade").Changed:Connect(function(val)
-                if val >= 6 then
+            Connections["BulmaWishBalls"] = child:WaitForChild("Meters"):WaitForChild("Wish Balls"):GetAttributeChangedSignal("Value"):Connect(function(val)
+                if val == child:WaitForChild("Meters"):WaitForChild("Wish Balls"):GetAttribute("MaxValue") then
                     local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
                     local Ability = ReplicatedStorage.Remotes.Ability
 
                     local Bulma = child
 
+                    Ability:FireServer(
+                        Bulma,
+                        "Summon Wish Dragon"
+                    )
+
                     Ability:InvokeServer(
                         Bulma,
                         "Wish: Power"
                     )
-
-                    local ToggleAutoUse = ReplicatedStorage.Remotes.ToggleAutoUse
-
-                    ToggleAutoUse:FireServer(
-                        Bulma,
-                        "Summon Wish Dragon",
-                        false
-                    )
-
-
                 end
             end)
         end
