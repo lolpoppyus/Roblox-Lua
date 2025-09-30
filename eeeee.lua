@@ -122,6 +122,48 @@ local CopyUnits = LeftGroupBox:AddButton({
 	end,
 })
 
+local CopyUnitsInfinityCastle = LeftGroupBox:AddButton({
+	Text = "Save Placed Units (Infinity Castle)",
+	Func = function()
+        table.clear(PlacableUnits)
+        for i,v in pairs(GetTowers()) do
+            if v:WaitForChild("Owner").Value == Player then
+                table.insert(PlacableUnits,{Unit = v.Name, Placed = false, Position = v.PrimaryPart.CFrame,AutoAbility = false})
+                AutoUpgrade(v)
+            end
+        end
+
+        SaveJson("IC/"..GetMapName():gsub("[,' ]", "").."Auto")
+
+		Library:Notify({
+			Title = "Saved Units",
+			Description = "Stored Data In ALS Folder.",
+			Time = 5,
+		})
+	end,
+})
+
+local CopyUnitsFinalExp = LeftGroupBox:AddButton({
+	Text = "Save Placed Units (Infinity Castle)",
+	Func = function()
+        table.clear(PlacableUnits)
+        for i,v in pairs(GetTowers()) do
+            if v:WaitForChild("Owner").Value == Player then
+                table.insert(PlacableUnits,{Unit = v.Name, Placed = false, Position = v.PrimaryPart.CFrame,AutoAbility = false})
+                AutoUpgrade(v)
+            end
+        end
+
+        SaveJson("FE/"..GetMapName():gsub("[,' ]", "").."Auto")
+
+		Library:Notify({
+			Title = "Saved Units",
+			Description = "Stored Data In ALS Folder.",
+			Time = 5,
+		})
+	end,
+})
+
 local MenuGroup = Tabs["UI Settings"]:AddLeftGroupbox("Menu")
 
 MenuGroup:AddDropdown("DPIDropdown", {
@@ -332,6 +374,29 @@ function DecodeCFrame(cf)
 end
 
 function LoadProfile(profile)
+    if ReplicatedStorage.Gamemode.Value == "Infinity Castle" then
+        local file = readfile("ALS/IC/"..profile..".json")
+
+        local decoded = HttpService:JSONDecode(file)
+
+        PlacableUnits = {}
+        for i,v in ipairs(decoded["Units"]) do
+            table.insert(PlacableUnits,{Unit = v.Unit, Placed = false, Position = DecodeCFrame(v), Order = v.Order})
+        end
+        print("Infinity Castle Units Loaded")
+        return
+    elseif ReplicatedStorage.Gamemode.Value == "Final Expediton" then
+        local file = readfile("ALS/FE/"..profile..".json")
+
+        local decoded = HttpService:JSONDecode(file)
+
+        PlacableUnits = {}
+        for i,v in ipairs(decoded["Units"]) do
+            table.insert(PlacableUnits,{Unit = v.Unit, Placed = false, Position = DecodeCFrame(v), Order = v.Order})
+        end
+        print("Final Expedition Units Loaded")
+        return
+    end
     local file = readfile("ALS/"..profile..".json")
 
     local decoded = HttpService:JSONDecode(file)
