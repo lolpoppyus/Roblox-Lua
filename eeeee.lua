@@ -84,7 +84,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 9.6",
+	Footer = "version: 10.0",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -144,7 +144,7 @@ local CopyUnitsInfinityCastle = LeftGroupBox:AddButton({
 })
 
 local CopyUnitsFinalExp = LeftGroupBox:AddButton({
-	Text = "Save Placed Units (Infinity Castle)",
+	Text = "Save Placed Units (Final Exp)",
 	Func = function()
         table.clear(PlacableUnits)
         for i,v in pairs(GetTowers()) do
@@ -256,6 +256,9 @@ function ClickRetry()
             GuiService.GuiNavigationEnabled = true
 
             local button = GUI:WaitForChild("EndGameUI"):WaitForChild("BG"):WaitForChild("Buttons"):WaitForChild("Retry")
+            if ReplicatedStorage.Gamemode.Value == "Infinity Castle" then
+                button = GUI:WaitForChild("EndGameUI"):WaitForChild("BG"):WaitForChild("Buttons"):WaitForChild("Next")
+            end
             button.Visible = true
 
             local connectedButton = button.MouseButton1Click:Connect(function()
