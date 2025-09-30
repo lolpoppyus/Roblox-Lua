@@ -218,7 +218,7 @@ function ClickRetry()
 
             local connectedButton = button.MouseButton1Click:Connect(function()
                 if MapPortals[GetMapName()] == true then
-                    if ReplicatedStorage.Gamemode.Value ~= "Survival" then
+                    if ReplicatedStorage.Gamemode.Value ~= "Survival" or ReplicatedStorage.Gamemode.Value ~= "Dungeon" then
                         return;
                     end
                 end
