@@ -270,7 +270,9 @@ function ClickRetry()
                 if ReplicatedStorage.Gamemode.Value == "Dungeon" then
                     return;
                 end
-                RunAllConnections()
+                if GetGamemode() ~= "MidnightHunt" then
+                    RunAllConnections()
+                end
             end)
 
             GuiService.SelectedObject = button
@@ -834,7 +836,9 @@ function RunAllConnections()
             --EnterPortal()
         end
         if child.Name == "EndGameUI" then
-            EndAllConnections()
+            if GetGamemode() ~= "MidnightHunt" then
+                EndAllConnections()
+            end
             if GetGamemode() ~= "InfiniteCastle" then
                 for i,v in pairs(PlacableUnits) do
                     PlacableUnits[i].Placed = false
