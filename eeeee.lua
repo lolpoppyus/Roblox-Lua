@@ -917,6 +917,51 @@ function RunAllConnections()
                 end
             end
         end
+        if GetGamemode() == "MidnightHunt" then
+            if Wave.Value == 50 then
+                if child.Name == "Boss" then
+                    for i,v in pairs(GetTowers()) do
+                        if v.Name == "AsuraEvo" then
+                            if v.Owner.Value == Player then
+                                local Ability = Remotes.Ability
+
+                                Ability:InvokeServer(
+                                    v,
+                                    "Lines of Sanzu"
+                                )
+                            end
+                        end
+                        if v.Name == "MobEvo" then
+                            if v.Owner.Value == Player then
+                                local Ability = Remotes.Ability 
+
+                                Ability:InvokeServer(
+                                    v,
+                                    "100%..."
+                                )
+
+                                local AbilitySelection = Remotes.AbilitySelection
+
+                                AbilitySelection:FireServer(
+                                    1,
+                                    "Obsession"
+                                )
+                            end
+                        end
+                        if v.Name == "LelouchEvo" then
+                            if v.Owner.Value == Player then
+                                local Ability = Remotes.Ability
+
+                                Ability:InvokeServer(
+                                    v,
+                                    "All of you, Die!"
+                                )
+                            end
+                        end
+                    end
+                end
+            end
+        end
         if MapPortals["Zenith Arena"] then
             if child.Name == "Shadow Frieran" then
                 
