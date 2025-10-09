@@ -921,16 +921,6 @@ function RunAllConnections()
             if Wave.Value == 50 then
                 if child.Name == "Boss" then
                     for i,v in pairs(GetTowers()) do
-                        if v.Name == "AsuraEvo" then
-                            if v.Owner.Value == Player then
-                                local Ability = Remotes.Ability
-
-                                Ability:InvokeServer(
-                                    v,
-                                    "Lines of Sanzu"
-                                )
-                            end
-                        end
                         if v.Name == "MobEvo" then
                             if v.Owner.Value == Player then
                                 local Ability = Remotes.Ability 
@@ -939,6 +929,8 @@ function RunAllConnections()
                                     v,
                                     "100%..."
                                 )
+
+                                task.wait(1)
 
                                 local AbilitySelection = Remotes.AbilitySelection
 
@@ -955,6 +947,17 @@ function RunAllConnections()
                                 Ability:InvokeServer(
                                     v,
                                     "All of you, Die!"
+                                )
+                            end
+                        end
+                        if v.Name == "AsuraEvo" then
+                            if v.Owner.Value == Player then
+                                task.wait(1)
+                                local Ability = Remotes.Ability
+
+                                Ability:InvokeServer(
+                                    v,
+                                    "Lines of Sanzu"
                                 )
                             end
                         end
