@@ -1,3 +1,4 @@
+
 -- If you someone how got this source, please kindly look away :)
 
 if not game:IsLoaded() then
@@ -22,7 +23,8 @@ local MapPortals = {
     ["Infernal Volcano"] = false,
     ["Easter Castle"] = false,
     ["Babylonia Castle"] = false,
-    ["Zenith Arena"] = false
+    ["Zenith Arena"] = false,
+    ["Candy Bowl"] = false,
 }
 
 local Connections = {}
@@ -86,7 +88,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 11.0",
+	Footer = "version: 11.1",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
