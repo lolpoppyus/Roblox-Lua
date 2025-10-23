@@ -1,4 +1,3 @@
-
 -- If you someone how got this source, please kindly look away :)
 
 if not game:IsLoaded() then
@@ -88,7 +87,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 11.1",
+	Footer = "version: 11.2",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -556,13 +555,16 @@ function AutoPlay()
         task.spawn(function()
             local candy = workspace.Collectibles
 
-            while tpToOrbs do
-                task.wait(1)
-                for i,v in pairs(candy:GetChildren()) do
-                    if v:IsA("Part") then
-                        TP(v)
+            while true do
+                if tpToOrbs then
+                    for _,v in pairs(candy:GetChildren()) do
+                        if v:IsA("Part") then
+                            TP(v)
+                            task.wait(0.05)
+                        end
                     end
                 end
+                task.wait(1)
             end
         end)
     end
