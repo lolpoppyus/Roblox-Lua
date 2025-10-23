@@ -72,6 +72,8 @@ local Enemies = game.Workspace:WaitForChild("Enemies")
 
 local Wave = ReplicatedStorage:WaitForChild("Wave")
 
+print("Passed Vars")
+
 -- UI
 
 local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
@@ -84,7 +86,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 10.0",
+	Footer = "version: 11.0",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -92,6 +94,7 @@ local Window = Library:CreateWindow({
 
 local Tabs = {
 	Main = Window:AddTab("Main", "user"),
+    Event = Window:AddTab("Event","event"),
 	["UI Settings"] = Window:AddTab("UI Settings", "settings"),
 }
 
@@ -164,6 +167,19 @@ local CopyUnitsFinalExp = LeftGroupBox:AddButton({
 	end,
 })
 
+local LeftEventGroupBox = Tabs.Event:AddLeftGroupbox("Event")
+
+local tpToOrbs = false
+
+local orbs = LeftEventGroupBox:AddToggle("Orbs", {
+    Text = "TP To Orbs",
+    Default = false,
+})
+
+orbs:OnChanged(function(state)
+    tpToOrbs = state
+end)
+
 local MenuGroup = Tabs["UI Settings"]:AddLeftGroupbox("Menu")
 
 MenuGroup:AddDropdown("DPIDropdown", {
@@ -185,6 +201,8 @@ MenuGroup:AddDivider()
 MenuGroup:AddButton("Unload", function()
 	Library:Unload()
 end)
+
+print("Passed Library")
 
 -- OBJECT CONNECTIONS
 
@@ -529,6 +547,20 @@ function AutoPlay()
                     end
                 end
                 task.wait(5)
+            end
+        end)
+    end
+    if MapPortals["Candy Bowl"] then
+        task.spawn(function()
+            local candy = workspace.Collectibles
+
+            while tpToOrbs do
+                task.wait(1)
+                for i,v in pairs(candy:GetChildren()) do
+                    if v:IsA("Part") then
+                        TP(v)
+                    end
+                end
             end
         end)
     end
