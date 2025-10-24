@@ -87,7 +87,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 11.3",
+	Footer = "version: 11.4",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -873,7 +873,9 @@ function RunAllConnections()
         end
         if child.Name == "EndGameUI" then
             if GetGamemode() ~= "MidnightHunt" then
-                EndAllConnections()
+                if MapPortals["Candy Bowl"] ~= true then
+                    EndAllConnections()
+                end
             end
             if GetGamemode() ~= "InfiniteCastle" then
                 for i,v in pairs(PlacableUnits) do
