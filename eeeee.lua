@@ -87,7 +87,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 11.6",
+	Footer = "version: 11.7",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -916,7 +916,7 @@ function RunAllConnections()
                 if ReplayCounter == 50 then
                     if not MapPortals["Easter Castle"] then
                         Remotes.RestartMatch:FireServer()
-                        SendMessage(getgenv.webhookUrl,"```50 Matches Restarted At "..formatTime(elapsed).."```")
+                        SendMessage(getgenv().webhookUrl,"```50 Matches Restarted At "..formatTime(elapsed).."```")
                     end
                 end
             else
@@ -930,9 +930,9 @@ function RunAllConnections()
     Connections["EnemiesAdded"] = Enemies.ChildAdded:Connect(function(child)
         if MapPortals["Candy Bowl"] then
             if Wave.Value >= 70 then
-                local candy = Player:FindFirstChild("PlayerGui"):FindFirstChild("CandyBowlDefenseHUD"):FindFirstChild("TopLeftCurrencies"):FindFirstChild("Frame"):FindFirstChild("TextLabel")
+                local candy = GUI:FindFirstChild("CandyBowlDefenseHUD"):FindFirstChild("TopLeftCurrencies"):FindFirstChild("Frame"):FindFirstChild("TextLabel")
 
-                SendMessage(getgenv.webhookUrl,"```Halloween Cookies Obtained: "..candy.Text.."```")
+                SendMessage(getgenv().webhookUrl,"```Halloween Cookies Obtained: "..candy.Text.."```")
                 
                 Remotes.RestartMatch:FireServer()
 
