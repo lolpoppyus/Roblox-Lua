@@ -87,7 +87,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 11.9",
+	Footer = "version: 12.0",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -434,7 +434,7 @@ end
 function SendRewardsWebhook(child)
     local rewards = child:WaitForChild("BG"):WaitForChild("Container"):WaitForChild("Rewards"):WaitForChild("Holder")
     task.wait(1)
-    local rewardString = "`"
+    local rewardString = "```"
     for i,v in pairs(rewards:GetChildren()) do
         if v:IsA("TextButton") then
             local itemName = v:FindFirstChild("ItemName")
@@ -454,9 +454,9 @@ function SendRewardsWebhook(child)
             end
         end
     end
-    rewardString = rewardString.."`"
-    if rewardString == "``" then
-        rewardString = "You Failed This Run..."
+    rewardString = rewardString.."```"
+    if rewardString == "``````" then
+        rewardString = "```You Failed This Run...```"
     end
     SendMessage(getgenv().webhookUrl,rewardString)
 end
