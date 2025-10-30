@@ -87,7 +87,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 11.4",
+	Footer = "version: 11.6",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -553,6 +553,7 @@ function AutoPlay()
     end
     if MapPortals["Candy Bowl"] then
         task.spawn(function()
+
             local candy = workspace.Collectibles
 
             while true do
@@ -927,6 +928,20 @@ function RunAllConnections()
     end)
 
     Connections["EnemiesAdded"] = Enemies.ChildAdded:Connect(function(child)
+        if MapPortals["Candy Bowl"] then
+            if Wave.Value >= 70 then
+                local candy = Player:FindFirstChild("PlayerGui"):FindFirstChild("CandyBowlDefenseHUD"):FindFirstChild("TopLeftCurrencies"):FindFirstChild("Frame"):FindFirstChild("TextLabel")
+
+                SendMessage(getgenv.webhookUrl,"```Halloween Cookies Obtained: "..candy.Text.."```")
+                
+                Remotes.RestartMatch:FireServer()
+
+                for i,v in pairs(PlacableUnits) do
+                    PlacableUnits[i].Placed = false
+                end
+            end
+        end
+
         if MapPortals["Easter Castle"] then
             if Wave.Value >= 35 then
                 if child.Name == "Boss" then
