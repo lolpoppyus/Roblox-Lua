@@ -271,6 +271,9 @@ run_service.RenderStepped:Connect(function()
             if data.name then
                 data.name:Remove()
             end
+            if data.customNameText then
+                data.customNameText:Remove()
+            end
             if data.distance then
                 data.distance:Remove()
             end
