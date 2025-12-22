@@ -28,6 +28,11 @@ if not esplib then
             fill = Color3.new(1,1,1),
             size = 13,
         },
+        customNameText = {
+            enabled = true,
+            fill = Color3.new(1,1,1),
+            size = 13,
+        },
         distance = {
             enabled = true,
             fill = Color3.new(1,1,1),
@@ -201,6 +206,19 @@ function espfunctions.add_name(instance)
 
     espinstances[instance] = espinstances[instance] or {}
     espinstances[instance].name = text
+end
+
+function espfunctions.add_name_text(instance,customText)
+    if not instance or espinstances[instance] and espinstances[instance].customNameText then return end
+    local text = Drawing.new("Text")
+    text.Center = true
+    text.Outline = true
+    text.Font = 1
+    text.Transparency = 1
+
+    espinstances[instance] = espinstances[instance] or {}
+    espinstances[instance].customNameText = text
+    espinstances[instance].customName = customText
 end
 
 function espfunctions.add_distance(instance)
@@ -404,6 +422,24 @@ run_service.RenderStepped:Connect(function()
                 text.Visible = true
             else
                 data.name.Visible = false
+            end
+        end
+
+        if data.customNameText then
+            if esplib.customNameText.enabled and onscreen then
+                local text = data.customNameText
+                local center_x = (min.X + max.X) / 2
+                local y = min.Y - 15
+
+                local name_str = data.customName
+
+                text.Text = name_str
+                text.Size = esplib.name.size
+                text.Color = esplib.name.fill
+                text.Position = Vector2.new(center_x, y)
+                text.Visible = true
+            else
+                data.customNameText.Visible = false
             end
         end
 
