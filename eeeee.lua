@@ -1,3 +1,11 @@
+if game.PlaceId ~= 12900046592 then
+    print("PlaceId is wrong")
+    return
+end
+
+getgenv().webhookUrl = "https://discord.com/api/webhooks/1340471276564774913/gVQT5OIWDAXahVdTKtTRLFV6qHvbx__klxBmWAJSkPyYfS0MCT2SbO88deilKkharwgw"
+
+
 -- If you someone how got this source, please kindly look away :)
 
 if not game:IsLoaded() then
@@ -65,7 +73,7 @@ function GetMapName()
     local map = workspace:FindFirstChild("Map")
     if not map then
         warn("Map does not exist")
-        return GUI.Right.Frame.Frame:GetChildren()[3]:GetChildren()[3].Text
+        return GUI:WaitForChild("Right").Frame.Frame:GetChildren()[3]:GetChildren()[3].Text
     end
 
     local mapName = map:FindFirstChild("MapName")
@@ -73,7 +81,7 @@ function GetMapName()
         return mapName.Value
     end
 
-    return GUI.Right.Frame.Frame:GetChildren()[3]:GetChildren()[3].Text
+    return GUI:WaitForChild("Right").Frame.Frame:GetChildren()[3]:GetChildren()[3].Text
 end
 
 print(GetMapName())
@@ -100,10 +108,15 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 13.0",
+	Footer = "version: 14.0",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
+})
+
+Library:Notify({
+	Title = "ALS Auto Farm Loaded!",
+	Time = 5,
 })
 
 local Tabs = {
