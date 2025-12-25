@@ -1,11 +1,3 @@
-if game.PlaceId ~= 12900046592 then
-    print("PlaceId is wrong")
-    return
-end
-
-getgenv().webhookUrl = "https://discord.com/api/webhooks/1340471276564774913/gVQT5OIWDAXahVdTKtTRLFV6qHvbx__klxBmWAJSkPyYfS0MCT2SbO88deilKkharwgw"
-
-
 -- If you someone how got this source, please kindly look away :)
 
 if not game:IsLoaded() then
@@ -1087,3 +1079,4 @@ game:GetService("Players").LocalPlayer.Idled:Connect(function()
     task.wait(1)
     vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 end)
+
