@@ -28,20 +28,6 @@ local MapPortals = {
 
 local Connections = {}
 
-function GetMapName()
-    return game.Workspace.Map.MapName.Value
-end
-
-function IsPortalMap()
-    for name,_ in pairs(MapPortals) do
-        if name == GetMapName() then
-            MapPortals[name] = true
-        end
-    end
-end
-
-IsPortalMap()
-
 local Player = game:GetService("Players").LocalPlayer
 local Character = Player.Character or Player.CharacterAdded:Wait()
 local GUI = Player.PlayerGui
@@ -75,6 +61,33 @@ local Wave = ReplicatedStorage:WaitForChild("Wave")
 
 print("Passed Vars")
 
+function GetMapName()
+    local map = workspace:FindFirstChild("Map")
+    if not map then
+        warn("Map does not exist")
+        return GUI.Right.Frame.Frame:GetChildren()[3]:GetChildren()[3].Text
+    end
+
+    local mapName = map:FindFirstChild("MapName")
+    if mapName and mapName:IsA("StringValue") then
+        return mapName.Value
+    end
+
+    return GUI.Right.Frame.Frame:GetChildren()[3]:GetChildren()[3].Text
+end
+
+print(GetMapName())
+
+function IsPortalMap()
+    for name,_ in pairs(MapPortals) do
+        if name == GetMapName() then
+            MapPortals[name] = true
+        end
+    end
+end
+
+IsPortalMap()
+
 -- UI
 
 local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
@@ -87,7 +100,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 12.0",
+	Footer = "version: 13.0",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -168,10 +181,11 @@ local CopyUnitsFinalExp = LeftGroupBox:AddButton({
 	end,
 })
 
-local LeftEventGroupBox = Tabs.Event:AddLeftGroupbox("Event")
+--local LeftEventGroupBox = Tabs.Event:AddLeftGroupbox("Event")
 
 local tpToOrbs = false
 
+--[[
 local orbs = LeftEventGroupBox:AddToggle("Orbs", {
     Text = "TP To Orbs",
     Default = false,
@@ -180,6 +194,7 @@ local orbs = LeftEventGroupBox:AddToggle("Orbs", {
 orbs:OnChanged(function(state)
     tpToOrbs = state
 end)
+]]
 
 local MenuGroup = Tabs["UI Settings"]:AddLeftGroupbox("Menu")
 
@@ -351,7 +366,7 @@ end
 
 function SaveJson(profile)
     local savedData = {}
-	savedData["Map"] = game.Workspace.Map.MapName.Value
+	savedData["Map"] = GetMapName()
 	local unitsToSave = {}
 	for i,v in ipairs(workspace.Towers:GetChildren()) do
 		if v.Owner.Value == Player then
