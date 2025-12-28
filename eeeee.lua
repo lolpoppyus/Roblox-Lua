@@ -100,7 +100,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 14.0",
+	Footer = "version: 15.0",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -287,11 +287,6 @@ function ClickRetry()
     task.spawn(function()
         task.wait(1)
         if GUI:FindFirstChild("EndGameUI") then
-            while GUI:FindFirstChild("EndGameUI").Enabled == false do
-                Click()
-                task.wait(1)
-            end
-
             GuiService.GuiNavigationEnabled = true
 
             local button = GUI:WaitForChild("EndGameUI"):WaitForChild("BG"):WaitForChild("Buttons"):WaitForChild("Retry")
@@ -881,13 +876,6 @@ function RunAllConnections()
                         end
                     end
                 end)
-            else
-                task.spawn(function()
-                    while child do
-                        Click()
-                        task.wait(1)
-                    end
-                end)
             end
             --Prompt = child
             --EnterPortal()
@@ -1079,4 +1067,3 @@ game:GetService("Players").LocalPlayer.Idled:Connect(function()
     task.wait(1)
     vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 end)
-
