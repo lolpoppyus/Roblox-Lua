@@ -65,7 +65,7 @@ function GetMapName()
     local map = workspace:FindFirstChild("Map")
     if not map then
         warn("Map does not exist")
-        return GUI:WaitForChild("Right").Frame.Frame:GetChildren()[3]:GetChildren()[3].Text
+        return GUI:WaitForChild("Right").Frame.Frame:GetChildren()[3].TextLabel.Text:gsub("%s*%- Act.*$", "")
     end
 
     local mapName = map:FindFirstChild("MapName")
@@ -73,7 +73,7 @@ function GetMapName()
         return mapName.Value
     end
 
-    return GUI:WaitForChild("Right").Frame.Frame:GetChildren()[3]:GetChildren()[3].Text
+    return GUI:WaitForChild("Right").Frame.Frame:GetChildren()[3].TextLabel.Text:gsub("%s*%- Act.*$", "")
 end
 
 print(GetMapName())
@@ -100,7 +100,7 @@ local Toggles = Library.Toggles
 
 local Window = Library:CreateWindow({
 	Title = "ALS Auto Farm",
-	Footer = "version: 15.0",
+	Footer = "version: 16.0",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = false,
@@ -287,6 +287,11 @@ function ClickRetry()
     task.spawn(function()
         task.wait(1)
         if GUI:FindFirstChild("EndGameUI") then
+            while GUI:FindFirstChild("EndGameUI").Enabled == false do
+                Click()
+                task.wait(1)
+            end
+
             GuiService.GuiNavigationEnabled = true
 
             local button = GUI:WaitForChild("EndGameUI"):WaitForChild("BG"):WaitForChild("Buttons"):WaitForChild("Retry")
